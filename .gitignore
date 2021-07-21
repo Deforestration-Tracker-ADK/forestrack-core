@@ -1,3 +1,4 @@
-.env
+forestrack_core/.env
 venv
 .idea
+.env
