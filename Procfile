@@ -1,0 +1,1 @@
+web: gunicorn forestrack_core.wsgi:application --log-file -

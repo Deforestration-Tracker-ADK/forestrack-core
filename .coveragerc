@@ -1,0 +1,7 @@
+[run]
+source = authentication/, volunteer/, vio/, opportunity/,
+omit =
+    venv
+    */migrations/*
+    */tests/*
+    */__init__.py
