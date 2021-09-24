@@ -35,5 +35,11 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        CORE_ADMIN_EMAIL: ${{ secrets.CORE_ADMIN_EMAIL }}
+        set_DJANGO_SETTINGS_MODULE: ${{ secrets.set_DJANGO_SETTINGS_MODULE }}
+        DEBUG: ${{ secrets.DEBUG }}
+        SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        COMPANY_EMAIL: ${{ secrets.COMPANY_EMAIL }}
+        CORE_ADMIN_PASSWORD: ${{ secrets.CORE_ADMIN_PASSWORD }}
       run: |
         python ./manage.py test
