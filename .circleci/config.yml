@@ -17,12 +17,5 @@ jobs:
           pkg-manager: pip
       - run: sudo apt-get update
       - run: sudo apt-get upgrade
-      - run: |
-          psql \
-          -c "ALTER USER django CREATEDB;"
-      - run:
-          name: Run django tests
-          command: |
-            python manage.py test
 
       
