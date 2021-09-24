@@ -27,13 +27,17 @@ jobs:
     docker:
       - image: cimg/python:3.8
         environment:
-          DATABASE_URL: postgresql://root@localhost/circle_test
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+          
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
     # Checkout the code as the first step. This is a dedicated CircleCI step.
     # The python orb's install-packages step will install the dependencies from a Pipfile via Pipenv by default.
     # Here we're making sure we use just use the system-wide pip. By default it uses the project root's requirements.txt.
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
-      - image: circleci/postgres:9.6.5-alpine-ram
     steps:
       - checkout
       - python/install-packages:
