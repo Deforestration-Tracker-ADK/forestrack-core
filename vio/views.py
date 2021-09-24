@@ -44,8 +44,8 @@ class AcceptVolunteerForOpportunity(GenericAPIView):
         form = AcceptVolunteerOpportunity(request.data, request.FILES)
         if form.is_valid():
             approve = request.data.get("approve")
-            volopp_id = request.data.get("volopp_id")
-            if VioService.approveVolunteerForOpportunity(volopp_id, approve, request.user):
+            vol_opp_id = request.data.get("vol_opp_id")
+            if VioService.approveVolunteerForOpportunity(vol_opp_id, approve, request.user):
                 return response.Response({"message": "Volunteer has been approved"},
                                          status=status.HTTP_200_OK)
 

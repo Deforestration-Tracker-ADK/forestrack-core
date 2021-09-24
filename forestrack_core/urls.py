@@ -18,9 +18,7 @@ from django.conf.urls import url
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
 
-from admin.helpers import create_core_admin
-
-create_core_admin()
+# create_core_admin()
 schema_view = get_swagger_view(title='ForestRack API')
 
 urlpatterns = [
