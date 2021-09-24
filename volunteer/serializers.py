@@ -41,8 +41,9 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Volunteer
-        fields = ('first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address', 'specialConditions',
-                  'preferredLanguage', 'highestEducation', 'user')
+        fields = (
+            'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address', 'specialConditions',
+            'preferredLanguage', 'highestEducation', 'user')
 
     def validate(self, attrs):
         if Volunteer.objects.filter(nic=attrs['nic']).exists():

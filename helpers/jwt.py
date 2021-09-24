@@ -3,7 +3,7 @@ from django.conf import settings
 from rest_framework import exceptions
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
-from authentication.enums import VolunteerVioState
+from authentication.enums import UserState
 from authentication.models import User
 
 
@@ -20,7 +20,7 @@ class JWTAuthentication(BaseAuthentication):
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
 
-            if payload["state"] == VolunteerVioState.EMAIL_UNVERIFIED:
+            if payload["state"] == UserState.EMAIL_UNVERIFIED:
                 raise exceptions.AuthenticationFailed("User must verify email")
 
             user = User.objects.get(id=payload["id"])

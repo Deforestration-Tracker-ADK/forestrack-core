@@ -4,6 +4,7 @@ from rest_framework.generics import GenericAPIView
 
 from helpers.models import get_profile_user
 from vio.forms import AcceptVolunteerOpportunity
+from vio.permissions import IsVio
 from vio.serializers import VioRegisterSerializer
 from vio.services import VioService
 
@@ -24,7 +25,7 @@ class RegisterAPIView(GenericAPIView):
 
 
 class AuthVioAPIView(GenericAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsVio)
 
     @staticmethod
     def get(request):
@@ -36,16 +37,15 @@ class AuthVioAPIView(GenericAPIView):
 
 
 class AcceptVolunteerForOpportunity(GenericAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsVio)
 
     @staticmethod
     def post(request):
-        form = AcceptVolunteerOpportunity(request.POST, request.FILES)
+        form = AcceptVolunteerOpportunity(request.data, request.FILES)
         if form.is_valid():
-            approve = request.POST.get("approve")
-            volunteer_id = request.POST.get("volunteer_id")
-            opportunity_id = request.POST.get("opportunity_id")
-            if VioService.approveVolunteerForOpportunity(volunteer_id, opportunity_id, approve, request.user):
+            approve = request.data.get("approve")
+            volopp_id = request.data.get("volopp_id")
+            if VioService.approveVolunteerForOpportunity(volopp_id, approve, request.user):
                 return response.Response({"message": "Volunteer has been approved"},
                                          status=status.HTTP_200_OK)
 

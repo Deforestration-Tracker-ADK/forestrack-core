@@ -8,7 +8,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from authentication.enums import UserType, VolunteerVioState
+from authentication.enums import UserType, UserState
 from helpers.models import TrackingModel
 
 
@@ -90,8 +90,8 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
     state = models.CharField(
         max_length=25,
         blank=False,
-        choices=VolunteerVioState.choices,
-        default=VolunteerVioState.EMAIL_UNVERIFIED)
+        choices=UserState.choices,
+        default=UserState.EMAIL_UNVERIFIED)
 
     objects = ForestRackUserManager()
 

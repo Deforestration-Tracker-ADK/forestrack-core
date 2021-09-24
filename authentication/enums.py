@@ -20,7 +20,6 @@ class UserType(models.TextChoices):
 
 
 class VolunteerVioState(models.TextChoices):
-    EMAIL_UNVERIFIED = "EMAIL_UNVERIFIED", _("Email_Unverified")
     DELETED = 'DELETE', _('Deleted')
     UNAPPROVED = 'UNAPPROVED', _('Unapproved')
     REJECTED = 'REJECTED', _('Rejected')

@@ -8,7 +8,7 @@ from volunteer.models import Volunteer
 
 
 class Opportunity(TrackingModel):
-    vio = models.OneToOneField(Vio, on_delete=models.CASCADE, primary_key=True)
+    vio = models.ForeignKey(Vio, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, help_text="name of the Opportunity", blank=False)
     description = models.CharField(max_length=255, help_text="Description of the Opportunity", blank=False)
     address = models.CharField(max_length=250, help_text="Register address of the Opportunity", blank=True)

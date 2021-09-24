@@ -4,6 +4,7 @@ from rest_framework.generics import GenericAPIView
 
 from helpers.models import get_profile_user
 from opportunity.serializers import ApplyForOpportunitySerializer
+from volunteer.permissions import IsVolunteer
 from volunteer.serializers import VolunteerRegisterSerializer
 
 
@@ -23,7 +24,7 @@ class RegisterAPIView(GenericAPIView):
 
 
 class AuthVolunteerAPIView(GenericAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsVolunteer)
 
     @staticmethod
     def get(request):
@@ -35,10 +36,11 @@ class AuthVolunteerAPIView(GenericAPIView):
 
 
 class ApplyForOpportunityAPIView(GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
+    permission_classes = [permissions.IsAuthenticated, IsVolunteer]
     serializer_class = ApplyForOpportunitySerializer
 
     def post(self, request):
+        request.data["volunteer_id"] = request.user.id
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():

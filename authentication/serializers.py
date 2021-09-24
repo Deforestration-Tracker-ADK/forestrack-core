@@ -29,7 +29,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'password')
+        fields = ('email', 'password', "state", "user_type", "id")
 
     def validate(self, attrs):
         if User.objects.filter(email=attrs['email']).exists():

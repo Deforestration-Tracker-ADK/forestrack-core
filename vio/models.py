@@ -18,4 +18,4 @@ class Vio(TrackingModel):
         max_length=25,
         blank=False,
         choices=VolunteerVioState.choices,
-        default=VolunteerVioState.EMAIL_UNVERIFIED)
+        default=VolunteerVioState.UNAPPROVED)
