@@ -14,8 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # from django.contrib import admin
-from django.urls import path
+from django.conf.urls import url
+from django.urls import path, include
+from rest_framework_swagger.views import get_swagger_view
+
+# create_core_admin()
+schema_view = get_swagger_view(title='ForestRack API')
 
 urlpatterns = [
-    #    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
+    url(r'^$', schema_view),
+    path('api/opportunity/', include('opportunity.urls')),
+    path('api/forest_stats/', include('forest_stats.urls')),
+    path('api/reports/', include('report.urls')),
+    path('api/auth/', include('authentication.urls')),
+    path('api/volunteer/', include('volunteer.urls')),
+    path('api/admin/', include('admin.urls')),
+    path('api/vio/', include('vio.urls')),
 ]
