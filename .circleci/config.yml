@@ -13,7 +13,10 @@ jobs:
           POSTGRES_DB: circle_test
     steps:
       - checkout
-      - python/install-packages
+      - python/install-packages:
+          pkg-manager: pip
+      - run: sudo apt-get update
+      - run: sudo apt-get upgrade
       - run: |
           psql \
           -c "ALTER USER django CREATEDB;"
