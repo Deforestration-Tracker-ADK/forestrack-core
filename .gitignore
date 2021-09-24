@@ -97,6 +97,9 @@ ipython_config.py
 forestrack_core/.env
 venv
 .idea
+forestrack_core/.env
+venv
+.idea
 .env
 htmlcov
 # pyenv
