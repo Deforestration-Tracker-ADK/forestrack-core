@@ -2,6 +2,7 @@
 from rest_framework import response, status, permissions
 from rest_framework.generics import GenericAPIView
 
+from authentication.enums import VolunteerVioState
 from helpers.models import get_profile_user
 from vio.forms import AcceptVolunteerOpportunity
 from vio.permissions import IsVio
@@ -53,3 +54,21 @@ class AcceptVolunteerForOpportunity(GenericAPIView):
                                      status=status.HTTP_400_BAD_REQUEST)
 
         return response.Response({"message": form.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetAllApprovedVio(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def get(request):
+        return response.Response(VioService.getVio(state=VolunteerVioState.APPROVED),
+                                 status=status.HTTP_200_OK)
+
+
+class GetAllUnapprovedVio(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def get(request):
+        return response.Response(VioService.getVio(state=VolunteerVioState.UNAPPROVED),
+                                 status=status.HTTP_200_OK)

@@ -1,5 +1,7 @@
+from authentication.enums import VolunteerVioState
 from opportunity.enums import VolunteerOpportunityState
 from opportunity.models import VolunteerOpportunity
+from vio.models import Vio
 
 
 class VioService:
@@ -17,3 +19,10 @@ class VioService:
 
         except VolunteerOpportunity.DoesNotExist:
             return False
+
+    @staticmethod
+    def getVio(state=VolunteerVioState.APPROVED, num_of=None):
+        if num_of is None:
+            return Vio.objects.filter(state=state).order_by("created_at").values()
+        else:
+            return Vio.objects.filter(state=state).order_by("created_at").values()[:num_of]

@@ -2,10 +2,12 @@
 from rest_framework import response, status, permissions
 from rest_framework.generics import GenericAPIView
 
+from authentication.enums import VolunteerVioState
 from helpers.models import get_profile_user
 from opportunity.serializers import ApplyForOpportunitySerializer
 from volunteer.permissions import IsVolunteer
 from volunteer.serializers import VolunteerRegisterSerializer
+from volunteer.services import VolunteerService
 
 
 class RegisterAPIView(GenericAPIView):
@@ -48,3 +50,21 @@ class ApplyForOpportunityAPIView(GenericAPIView):
             return response.Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetAllApprovedVolunteer(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def get(request):
+        return response.Response(VolunteerService.getVolunteer(state=VolunteerVioState.APPROVED),
+                                 status=status.HTTP_200_OK)
+
+
+class GetAllUnapprovedVolunteer(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def get(request):
+        return response.Response(VolunteerService.getVolunteer(state=VolunteerVioState.UNAPPROVED),
+                                 status=status.HTTP_200_OK)

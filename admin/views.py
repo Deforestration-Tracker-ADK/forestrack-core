@@ -1,42 +1,27 @@
 # Create your views here.
-from django.core.exceptions import BadRequest
 from django.db import transaction
 from rest_framework import response, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from admin.forms import ApproveForm
-from admin.helpers import create_admin
 from admin.permissions import IsAdmin
+from admin.serializers import AdminRegisterSerializer
 from admin.services import AdminService
-from authentication.models import User
 
 
 class InviteAdminView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
+    serializer_class = AdminRegisterSerializer
 
-    @staticmethod
-    def post(request):
-        try:
-            if "email" not in request.data:
-                raise BadRequest("No email Provided")
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
 
-            admin_email = request.data["email"]
-            if User.objects.filter(email=admin_email):
-                return response.Response({"message": "User with same email already exist in system"},
-                                         status=status.HTTP_400_BAD_REQUEST)
-            admin = create_admin(admin_email)
-            if admin:
-                return response.Response({"message": "Successfully invited admin"}, status=status.HTTP_200_OK)
+        if serializer.is_valid():
+            serializer.save()
+            return response.Response(serializer.data, status=status.HTTP_201_CREATED)
 
-            return response.Response({"message": "Error when creating admin"}, status=status.HTTP_400_BAD_REQUEST)
-
-        except BadRequest as error:
-            return response.Response({"message": "No email provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-        except Exception as error:
-            print(error)
-            return response.Response({"message": "Error when creating admin"}, status=status.HTTP_400_BAD_REQUEST)
+        return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ApproveOpportunity(GenericAPIView):

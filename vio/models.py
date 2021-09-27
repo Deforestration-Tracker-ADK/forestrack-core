@@ -14,6 +14,8 @@ class Vio(TrackingModel):
     registrationNo = models.CharField(max_length=100, help_text="Registration Number of the Vio", blank=True)
     address = models.CharField(max_length=250, help_text="Register address of the vio", blank=True)
     district = models.CharField(max_length=100, help_text="District of the vio residence", blank=True)
+    contactNumber = models.CharField(max_length=15, help_text="Contact number of volunteer", blank=False)
+    registrationDate = models.DateTimeField(blank=False)
     state = models.CharField(
         max_length=25,
         blank=False,

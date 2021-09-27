@@ -45,6 +45,7 @@ class Volunteer(TrackingModel):
                                          help_text="Preferred Language of the volunteer", blank=True)
     highestEducation = models.CharField(max_length=100, choices=HighestEducation.choices,
                                         help_text="Highest Education of the volunteer", blank=True)
+    contactNumber = models.CharField(max_length=15, help_text="Contact number of volunteer", blank=False)
 
     state = models.CharField(
         max_length=25,

@@ -3,7 +3,7 @@ from rest_framework import response, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from opportunity.enums import OpportunityState
+from opportunity.enums import OpportunityState, VolunteerOpportunityState
 from opportunity.serializers import OpportunitySerializer
 from opportunity.services import OpportunityService
 from vio.permissions import IsVio
@@ -40,3 +40,67 @@ class GetApprovedOpportunity(GenericAPIView):
     @staticmethod
     def get(request):
         return response.Response(OpportunityService.getOpportunities(), status=status.HTTP_200_OK)
+
+
+class GetVolunteerPendingProjectsForVolunteer(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, vol_id):
+        return response.Response(
+            OpportunityService.getVolunteerOpportunitiesForVolunteer(vol_id, state=VolunteerOpportunityState.PENDING),
+            status=status.HTTP_200_OK)
+
+
+class GetVolunteerAcceptedProjectsForVolunteer(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, vol_id):
+        return response.Response(
+            OpportunityService.getVolunteerOpportunitiesForVolunteer(vol_id, state=VolunteerOpportunityState.ACCEPTED),
+            status=status.HTTP_200_OK)
+
+
+class GetVolunteerCompletedProjectsForVolunteer(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, vol_id):
+        return response.Response(
+            OpportunityService.getVolunteerOpportunitiesForVolunteer(vol_id, state=VolunteerOpportunityState.COMPLETED),
+            status=status.HTTP_200_OK)
+
+
+class GetAcceptedVolunteersForOpportunity(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, opportunity_id):
+        return response.Response(
+            OpportunityService.getVolunteerOpportunitiesForVolunteer(opportunity_id,
+                                                                     state=VolunteerOpportunityState.COMPLETED),
+            status=status.HTTP_200_OK)
+
+
+class GetPendingVolunteersForOpportunity(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, opportunity_id):
+        return response.Response(
+            OpportunityService.getVolunteerOpportunitiesForVolunteer(opportunity_id,
+                                                                     state=VolunteerOpportunityState.COMPLETED),
+            status=status.HTTP_200_OK)
+
+
+class SearchOpportunity(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request):
+        search_term = request.params.get("search")
+        if search_term is None:
+            response.Response("No Search term provided", status=status.HTTP_400_BAD_REQUEST)
+
+        return response.Response(OpportunityService.searchOpportunitiesByName(search_term), status=status.HTTP_200_OK)

@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['forestrack-core.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['forestrack-core.herokuapp.com/', '127.0.0.1', 'localhost']
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -46,12 +46,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'whitenoise.runserver_nostatic',
     'rest_framework_swagger',
     'authentication',
     'volunteer',
     'vio',
-    'opportunity'
+    'opportunity',
+    'forest_stats',
+    'report',
+    'admin',
+
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
@@ -99,6 +106,9 @@ DATABASES = {
     'default': env.db(),
 }
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'forestrack_core/static')]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

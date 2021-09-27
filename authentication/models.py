@@ -57,7 +57,6 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
     """
 
     email = models.EmailField(_('email address'), blank=False, unique=True)
-
     user_type = models.CharField(
         _("user_type"),
         max_length=50,

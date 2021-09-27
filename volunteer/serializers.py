@@ -37,13 +37,14 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
     specialConditions = serializers.CharField(max_length=255, min_length=4)
     preferredLanguage = EnumChoiceField(Language)
     highestEducation = EnumChoiceField(HighestEducation)
+    contactNumber = serializers.CharField(max_length=15, min_length=9, required=True)
     user = UserRegisterSerializer()
 
     class Meta:
         model = Volunteer
         fields = (
             'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address', 'specialConditions',
-            'preferredLanguage', 'highestEducation', 'user')
+            'preferredLanguage', 'highestEducation', 'contactNumber', 'user')
 
     def validate(self, attrs):
         if Volunteer.objects.filter(nic=attrs['nic']).exists():

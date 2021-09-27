@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import transaction
 from rest_framework import serializers
 
@@ -12,15 +14,20 @@ class VioRegisterSerializer(serializers.ModelSerializer):
     registrationNo = serializers.CharField(max_length=12, min_length=10)
     address = serializers.CharField(max_length=255, min_length=4, required=True)
     district = serializers.CharField(max_length=255, min_length=4, required=True)
+    contactNumber = serializers.CharField(max_length=15, min_length=9, required=True)
+    registrationDate = serializers.DateField(required=True)
     user = UserRegisterSerializer()
 
     class Meta:
         model = Vio
-        fields = ('name', 'description', 'registrationNo', 'user', 'address', 'district')
+        fields = (
+            'name', 'description', 'registrationNo', 'user', 'address', 'district', 'contactNumber', 'registrationDate')
 
     def validate(self, attrs):
+        if attrs['registrationDate'] >= date.today():
+            raise serializers.ValidationError({"registrationNo": "The registration day must be in the past"})
         if Vio.objects.filter(registrationNo=attrs['registrationNo']).exists():
-            raise serializers.ValidationError({'registrationNo', 'The Registration Number is already in use'})
+            raise serializers.ValidationError({'registrationNo': 'The Registration Number is already in use'})
 
         return super().validate(attrs)
 

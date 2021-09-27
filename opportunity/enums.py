@@ -13,3 +13,4 @@ class VolunteerOpportunityState(models.TextChoices):
     ACCEPTED = 'ACCEPTED', _('Accepted')
     REJECTED = 'REJECTED', _('Rejected')
     PENDING = 'PENDING', _('Pending')
+    COMPLETED = "COMPLETED", _("Complete")
