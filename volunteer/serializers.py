@@ -49,6 +49,10 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
             'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address', 'specialConditions',
             'preferredLanguage', 'highestEducation', 'contactNumber', 'user', "dob")
 
+    def get_validation_exclusions(self):
+        exclusions = super(VolunteerRegisterSerializer, self).get_validation_exclusions()
+        return exclusions + ['specialConditions']
+
     def validate(self, attrs):
         if attrs['dob'] >= date.today():
             raise serializers.ValidationError({"message": "Date of Birth day must be in the past"})
