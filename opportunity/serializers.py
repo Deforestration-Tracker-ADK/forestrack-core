@@ -42,10 +42,10 @@ class ApplyForOpportunitySerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if not Volunteer.objects.filter(user_id=attrs["volunteer_id"]).exists():
-            raise serializers.ValidationError({"volunteer_id": "No Volunteer with this volunteer Id"})
+            raise serializers.ValidationError({"message": "No Volunteer with this volunteer Id"})
 
         if not Opportunity.objects.filter(id=attrs["opportunity_id"]).exists():
-            raise serializers.ValidationError({"opportunity_id": "No Opportunity with this opportunity Id"})
+            raise serializers.ValidationError({"message": "No Opportunity with this opportunity Id"})
 
         if VolunteerOpportunity.objects.filter(opportunity_id=attrs["opportunity_id"],
                                                volunteer_id=attrs["volunteer_id"]):
