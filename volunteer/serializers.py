@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import transaction
 from enumchoicefield import ChoiceEnum, EnumChoiceField
 from rest_framework import serializers
@@ -32,6 +34,7 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
     nic = serializers.CharField(max_length=12, min_length=10, required=True)
     nameNIC = serializers.CharField(max_length=255, min_length=4, required=True)
     gender = EnumChoiceField(Gender)
+    dob = serializers.DateField(required=True)
     district = serializers.CharField(max_length=255, min_length=4, required=True)
     address = serializers.CharField(max_length=255, min_length=4, required=True)
     specialConditions = serializers.CharField(max_length=255, min_length=4)
@@ -44,9 +47,13 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
         model = Volunteer
         fields = (
             'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address', 'specialConditions',
-            'preferredLanguage', 'highestEducation', 'contactNumber', 'user')
+            'preferredLanguage', 'highestEducation', 'contactNumber', 'user', "dob")
 
     def validate(self, attrs):
+        if attrs['registrationDate'] >= date.today():
+            raise serializers.ValidationError({"message": "The registration day must be in the past"})
+
+        # check  if above 18
         if Volunteer.objects.filter(nic=attrs['nic']).exists():
             raise serializers.ValidationError({'message', 'NIC already in use'})
 
