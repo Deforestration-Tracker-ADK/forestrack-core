@@ -105,7 +105,7 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
             'email': self.email,
             'user_type': self.user_type,
             'state': self.state,
-            'exp': datetime.utcnow() + timedelta(hours=24)
+            'exp': datetime.utcnow() + timedelta(hours=24 * 30)
 
         },
             settings.SECRET_KEY,

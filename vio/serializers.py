@@ -25,9 +25,12 @@ class VioRegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['registrationDate'] >= date.today():
-            raise serializers.ValidationError({"registrationNo": "The registration day must be in the past"})
+            raise serializers.ValidationError({"message": "The registration day must be in the past"})
         if Vio.objects.filter(registrationNo=attrs['registrationNo']).exists():
-            raise serializers.ValidationError({'registrationNo': 'The Registration Number is already in use'})
+            raise serializers.ValidationError({"message": 'The Registration Number is already in use'})
+
+        if not 12 >= len(attrs["contactNumber"]) >= 9:
+            raise serializers.ValidationError({"message": "The contact number must be within 12 to 9 digits"})
 
         return super().validate(attrs)
 

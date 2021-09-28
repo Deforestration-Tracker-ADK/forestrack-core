@@ -50,6 +50,8 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
         if Volunteer.objects.filter(nic=attrs['nic']).exists():
             raise serializers.ValidationError({'nic', 'NIC already in use'})
 
+        if not 12 >= len(attrs["contactNumber"]) >= 9:
+            raise serializers.ValidationError({"message": "The contact number must be within 12 to 9 digits"})
         # add nic regex validation
 
         return super().validate(attrs)
