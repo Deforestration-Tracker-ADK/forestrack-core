@@ -37,7 +37,7 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
     dob = serializers.DateField(required=True)
     district = serializers.CharField(max_length=255, min_length=4, required=True)
     address = serializers.CharField(max_length=255, min_length=4, required=True)
-    specialConditions = serializers.CharField(max_length=255, min_length=4)
+    specialConditions = serializers.CharField(max_length=255, required=False)
     preferredLanguage = EnumChoiceField(Language)
     highestEducation = EnumChoiceField(HighestEducation)
     contactNumber = serializers.CharField(max_length=15, min_length=9, required=True)
