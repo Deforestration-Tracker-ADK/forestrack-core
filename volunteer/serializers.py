@@ -45,12 +45,13 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Volunteer
+        optional_fields = ['specialConditions', ]
         fields = (
             'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address', 'specialConditions',
             'preferredLanguage', 'highestEducation', 'contactNumber', 'user', "dob")
 
     def get_validation_exclusions(self):
-        exclusions = super(VolunteerRegisterSerializer, self).get_validation_exclusions()
+        exclusions = super().get_validation_exclusions()
         return exclusions + ['specialConditions']
 
     def validate(self, attrs):
