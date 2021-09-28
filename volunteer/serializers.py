@@ -37,7 +37,6 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
     dob = serializers.DateField(required=True)
     district = serializers.CharField(max_length=255, min_length=4, required=True)
     address = serializers.CharField(max_length=255, min_length=4, required=True)
-    specialConditions = serializers.CharField(max_length=255, min_length=0, required=False)
     preferredLanguage = EnumChoiceField(Language)
     highestEducation = EnumChoiceField(HighestEducation)
     contactNumber = serializers.CharField(max_length=15, min_length=9, required=True)
@@ -47,12 +46,8 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
         model = Volunteer
         optional_fields = ['specialConditions', ]
         fields = (
-            'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address', 'specialConditions',
+            'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address',
             'preferredLanguage', 'highestEducation', 'contactNumber', 'user', "dob")
-
-    def get_validation_exclusions(self):
-        exclusions = super().get_validation_exclusions()
-        return exclusions + ['specialConditions']
 
     def validate(self, attrs):
         if attrs['dob'] >= date.today():

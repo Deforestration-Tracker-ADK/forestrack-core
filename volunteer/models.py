@@ -41,7 +41,6 @@ class Volunteer(TrackingModel):
     district = models.CharField(max_length=100, help_text="District of the volunteer residence", blank=True)
     address = models.CharField(max_length=100, help_text="Volunteers address of residence", blank=True)
     imageUrl = models.CharField(max_length=100, help_text="Volunteers image url", blank=True)
-    specialConditions = models.CharField(max_length=250, help_text="Any special conditions of the user", blank=True)
     preferredLanguage = models.CharField(max_length=100, choices=LanguageType.choices, default=LanguageType.SINHALA,
                                          help_text="Preferred Language of the volunteer", blank=True)
     highestEducation = models.CharField(max_length=100, choices=HighestEducation.choices,
