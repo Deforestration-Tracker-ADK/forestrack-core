@@ -50,8 +50,8 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
             'preferredLanguage', 'highestEducation', 'contactNumber', 'user', "dob")
 
     def validate(self, attrs):
-        if attrs['registrationDate'] >= date.today():
-            raise serializers.ValidationError({"message": "The registration day must be in the past"})
+        if attrs['dob'] >= date.today():
+            raise serializers.ValidationError({"message": "Date of Birth day must be in the past"})
 
         # check  if above 18
         if Volunteer.objects.filter(nic=attrs['nic']).exists():
