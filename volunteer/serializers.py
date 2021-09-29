@@ -47,7 +47,7 @@ class VolunteerRegisterSerializer(serializers.ModelSerializer):
         optional_fields = ['specialConditions', ]
         fields = (
             'first_name', 'last_name', 'nic', 'nameNIC', 'gender', 'district', 'address',
-            'preferredLanguage', 'highestEducation', 'contactNumber', 'user', "dob")
+            'preferredLanguage', 'highestEducation', 'contactNumber', 'user', "dob", "state")
 
     def validate(self, attrs):
         if attrs['dob'] >= date.today():

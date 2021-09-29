@@ -21,7 +21,8 @@ class VioRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vio
         fields = (
-            'name', 'description', 'registrationNo', 'user', 'address', 'district', 'contactNumber', 'registrationDate')
+            'name', 'description', 'registrationNo', 'user', 'address', 'district', 'contactNumber', 'registrationDate',
+            "state")
 
     def validate(self, attrs):
         if attrs['registrationDate'] >= date.today():
