@@ -28,10 +28,10 @@ class OpportunitySerializer(serializers.ModelSerializer):
         if not Vio.objects.filter(user_id=attrs["vio_id"]).exists():
             raise serializers.ValidationError({"vio_id": "There is no VIO authentication error"})
 
-        if attrs["start_date"] <= date.now():
+        if attrs["start_date"] <= date.today():
             raise serializers.ValidationError({"start_date": "Start Date must be in the future"})
 
-        if attrs["end_date"] <= date.now():
+        if attrs["end_date"] <= date.today():
             raise serializers.ValidationError({"end_date": "End Date must be in the future"})
 
         if attrs["end_date"] <= attrs["start_date"]:
