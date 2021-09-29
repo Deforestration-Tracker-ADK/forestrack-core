@@ -43,7 +43,8 @@ class OpportunityService:
     def getOpportunityById(opportunity_id):
         if Opportunity.objects.filter(id=opportunity_id, state=OpportunityState.APPROVED).exists():
             opportunity = Opportunity.objects.filter(id=opportunity_id).values()[0]
-            opportunity["vio"] = Vio.objects.get(id=opportunity.vio_id);
+            print(opportunity)
+            opportunity["vio"] = Vio.objects.get(id=opportunity["vio_id"])
 
             return opportunity
 
