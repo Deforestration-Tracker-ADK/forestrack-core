@@ -1,5 +1,6 @@
 from opportunity.enums import OpportunityState, VolunteerOpportunityState
 from opportunity.models import Opportunity, VolunteerOpportunity
+from vio.models import Vio
 
 
 class OpportunityService:
@@ -41,6 +42,9 @@ class OpportunityService:
     @staticmethod
     def getOpportunityById(opportunity_id):
         if Opportunity.objects.filter(id=opportunity_id, state=OpportunityState.APPROVED).exists():
-            return Opportunity.objects.filter(id=opportunity_id).values()[0]
+            opportunity = Opportunity.objects.filter(id=opportunity_id).values()[0]
+            opportunity["vio"] = Vio.objects.get(id=opportunity.vio_id);
+
+            return opportunity
 
         return None
