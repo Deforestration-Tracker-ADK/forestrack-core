@@ -37,3 +37,11 @@ class OpportunityService:
         else:
             return VolunteerOpportunity.objects.filter(name__unaccent__icontains=search_term).order_by(
                 "created_at").values()[:num_of]
+
+    @staticmethod
+    def getOpportunityById(opportunity_id):
+        if Opportunity.objects.filter(opportunity_id=opportunity_id, state=OpportunityState.APPROVED).exists():
+            return VolunteerOpportunity.objects.get(opportunity_id=opportunity_id).order_by(
+                "created_at").values()
+
+        return None

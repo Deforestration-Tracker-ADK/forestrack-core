@@ -104,3 +104,15 @@ class SearchOpportunity(GenericAPIView):
             response.Response("No Search term provided", status=status.HTTP_400_BAD_REQUEST)
 
         return response.Response(OpportunityService.searchOpportunitiesByName(search_term), status=status.HTTP_200_OK)
+
+
+class GetOpportunityById(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, opportunity_id):
+        opportunity = OpportunityService.getOpportunityById(opportunity_id)
+        if opportunity is None:
+            return response.Response({"message": "No such opportunity"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return response.Response(opportunity, status=status.HTTP_200_OK)
