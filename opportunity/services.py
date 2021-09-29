@@ -41,6 +41,6 @@ class OpportunityService:
     @staticmethod
     def getOpportunityById(opportunity_id):
         if Opportunity.objects.filter(id=opportunity_id, state=OpportunityState.APPROVED).exists():
-            return Opportunity.objects.filter(id=opportunity_id).values()
+            return Opportunity.objects.filter(id=opportunity_id).values()[0]
 
         return None
