@@ -16,6 +16,7 @@ class Opportunity(TrackingModel):
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
     goals = models.CharField(max_length=255, blank=False)
+    contactPersonNumber = models.CharField(max_length=15, help_text="Contact number of volunteer", blank=False)
     numVolunteers = models.IntegerField(blank=False)
     state = models.CharField(
         max_length=25,

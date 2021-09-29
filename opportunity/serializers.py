@@ -17,12 +17,13 @@ class OpportunitySerializer(serializers.ModelSerializer):
     end_date = serializers.DateField(required=True)
     goals = serializers.CharField(required=True)
     numVolunteers = serializers.IntegerField(max_value=250, required=True)
+    contactPersonNumber = serializers.CharField(max_length=15, required=True, min_length=9)
     vio_id = serializers.IntegerField()
 
     class Meta:
         model = Opportunity
         fields = ('id', 'vio_id', 'name', 'description', 'address', 'district', 'start_date', 'end_date', 'goals',
-                  'numVolunteers')
+                  'numVolunteers', 'contactPersonNumber')
 
     def validate(self, attrs):
         if not Vio.objects.filter(user_id=attrs["vio_id"]).exists():
