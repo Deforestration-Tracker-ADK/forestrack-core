@@ -82,3 +82,16 @@ class ApproveVolunteer(GenericAPIView):
                                      status=status.HTTP_400_BAD_REQUEST)
 
         return response.Response({"message": form.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetAdminsList(GenericAPIView):
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    @staticmethod
+    @transaction.atomic
+    def get(request):
+        admins = AdminService.getListOfAdmins()
+        if admins is not None:
+            return response.Response(admins, status=status.HTTP_200_OK)
+
+        return response.Response({"message": "No admins in system"}, status=status.HTTP_400_BAD_REQUEST)
