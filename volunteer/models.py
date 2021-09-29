@@ -37,7 +37,7 @@ class Volunteer(TrackingModel):
     nameNIC = models.CharField(max_length=100, help_text="Name as stated in the NIC", blank=True)
     gender = models.CharField(max_length=15, choices=GenderType.choices, blank=True,
                               help_text="gender of the volunteer")
-    dob = models.DateTimeField(blank=False)
+    dob = models.DateField(blank=False)
     district = models.CharField(max_length=100, help_text="District of the volunteer residence", blank=True)
     address = models.CharField(max_length=100, help_text="Volunteers address of residence", blank=True)
     imageUrl = models.CharField(max_length=100, help_text="Volunteers image url", blank=True)
