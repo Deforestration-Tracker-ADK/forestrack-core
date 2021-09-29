@@ -2,7 +2,7 @@ from django.db import transaction
 from rest_framework import serializers
 
 from admin.helpers import create_admin
-from admin.models import Admin
+from admin.models import SystemAdmin
 from authentication.models import User
 from volunteer.models import Volunteer
 
@@ -14,12 +14,12 @@ class AdminRegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=128, min_length=5, required=True)
 
     class Meta:
-        model = Admin
+        model = SystemAdmin
         fields = (
-            'first_name', 'last_name', 'nic', 'user')
+            'email', 'first_name', 'last_name', 'nic', 'user')
 
     def validate(self, attrs):
-        if Admin.objects.filter(nic=attrs['nic']).exists() or Volunteer.objects.filter(nic=attrs['nic']).exists():
+        if SystemAdmin.objects.filter(nic=attrs['nic']).exists() or Volunteer.objects.filter(nic=attrs['nic']).exists():
             raise serializers.ValidationError({'message', 'NIC already in use'})
 
         if User.objects.filter(email=attrs["email"]).exists():
@@ -31,8 +31,11 @@ class AdminRegisterSerializer(serializers.ModelSerializer):
 
     @transaction.atomic()
     def create(self, validated_data):
-        user = create_admin(validated_data["email"])
-        validated_data['user'] = user
+        admin = create_admin(
+            validated_data["email"],
+            validated_data["first_name"],
+            validated_data["last_name"],
+            validated_data["nic"]
+        )
 
-        admin = Admin.objects.create(**validated_data)
         return admin
