@@ -21,7 +21,8 @@ class OpportunitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Opportunity
-        fields = ('id', 'vio_id', 'name', 'description', 'address', 'district', 'start_date', 'end_date')
+        fields = ('id', 'vio_id', 'name', 'description', 'address', 'district', 'start_date', 'end_date', 'goals',
+                  'numVolunteers')
 
     def validate(self, attrs):
         if not Vio.objects.filter(user_id=attrs["vio_id"]).exists():
