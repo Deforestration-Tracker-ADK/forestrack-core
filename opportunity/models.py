@@ -13,6 +13,10 @@ class Opportunity(TrackingModel):
     description = models.CharField(max_length=255, help_text="Description of the Opportunity", blank=False)
     address = models.CharField(max_length=250, help_text="Register address of the Opportunity", blank=True)
     district = models.CharField(max_length=100, help_text="District of the Opportunity residence", blank=True)
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=False)
+    goals = models.CharField(max_length=255, blank=False)
+    numVolunteers = models.IntegerField(blank=False)
     state = models.CharField(
         max_length=25,
         blank=False,

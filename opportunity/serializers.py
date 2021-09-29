@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import transaction
 from rest_framework import serializers
 
@@ -11,15 +13,28 @@ class OpportunitySerializer(serializers.ModelSerializer):
     description = serializers.CharField(max_length=255, min_length=4, required=True)
     address = serializers.CharField(max_length=255, min_length=4)
     district = serializers.CharField(max_length=255, min_length=4, required=True)
+    start_date = serializers.DateField(required=True)
+    end_date = serializers.DateField(required=True)
+    goals = serializers.CharField(required=True)
+    numVolunteers = serializers.IntegerField(max_value=250, required=True)
     vio_id = serializers.IntegerField()
 
     class Meta:
         model = Opportunity
-        fields = ('id', 'vio_id', 'name', 'description', 'address', 'district')
+        fields = ('id', 'vio_id', 'name', 'description', 'address', 'district', 'start_date', 'end_date')
 
     def validate(self, attrs):
         if not Vio.objects.filter(user_id=attrs["vio_id"]).exists():
             raise serializers.ValidationError({"vio_id": "There is no VIO authentication error"})
+
+        if attrs["start_date"] <= date.now():
+            raise serializers.ValidationError({"start_date": "Start Date must be in the future"})
+
+        if attrs["end_date"] <= date.now():
+            raise serializers.ValidationError({"end_date": "End Date must be in the future"})
+
+        if attrs["end_date"] <= attrs["start_date"]:
+            raise serializers.ValidationError({"start_date": "Start Date must be earlier than end date"})
 
         return super().validate(attrs)
 
