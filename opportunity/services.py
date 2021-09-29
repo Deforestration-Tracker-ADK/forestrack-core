@@ -40,8 +40,8 @@ class OpportunityService:
 
     @staticmethod
     def getOpportunityById(opportunity_id):
-        if Opportunity.objects.filter(opportunity_id=opportunity_id, state=OpportunityState.APPROVED).exists():
-            return VolunteerOpportunity.objects.get(opportunity_id=opportunity_id).order_by(
+        if Opportunity.objects.filter(id=opportunity_id, state=OpportunityState.APPROVED).exists():
+            return VolunteerOpportunity.objects.get(id=opportunity_id).order_by(
                 "created_at").values()
 
         return None
