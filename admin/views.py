@@ -5,6 +5,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from admin.forms import ApproveForm
+from admin.helpers import create_admin
 from admin.permissions import IsAdmin
 from admin.serializers import AdminRegisterSerializer
 from admin.services import AdminService
@@ -18,8 +19,13 @@ class InviteAdminView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
-            return response.Response(serializer.data, status=status.HTTP_201_CREATED)
+            admin = create_admin(
+                request.data["email"],
+                serializer.validated_data["first_name"],
+                serializer.validated_data["last_name"],
+                serializer.validated_data["nic"]
+            )
+            return response.Response(admin, status=status.HTTP_201_CREATED)
 
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
