@@ -1,5 +1,5 @@
-from authentication.enums import VolunteerVioState, UserType
-from authentication.models import User
+from admin.models import SystemAdmin
+from authentication.enums import VolunteerVioState
 from opportunity.enums import OpportunityState
 from opportunity.models import Opportunity
 from vio.models import Vio
@@ -43,8 +43,8 @@ class AdminService:
     @staticmethod
     def getListOfAdmins():
         try:
-            users = User.objects.filter(user_type=UserType.ADMIN).order_by('created_at').values()
-            return users
+            admins = SystemAdmin.objects.get().values()
+            return admins
 
-        except User.DoesNotExist as no_user:
+        except SystemAdmin.DoesNotExist as no_user:
             return None

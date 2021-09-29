@@ -16,7 +16,7 @@ class AdminRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemAdmin
         fields = (
-            'email', 'first_name', 'last_name', 'nic', 'user')
+            'email', 'first_name', 'last_name', 'nic')
 
     def validate(self, attrs):
         if SystemAdmin.objects.filter(nic=attrs['nic']).exists() or Volunteer.objects.filter(nic=attrs['nic']).exists():
