@@ -1,10 +1,17 @@
+import os
+
 from django.db import transaction
+from dotenv import load_dotenv
 from rest_framework import serializers
 
 from authentication.models import User, UserType
 from helpers.email_sender.vio_email_verification import vio_email_verify
 from helpers.email_sender.volunteer_email_verification import volunteer_email_verify
 from helpers.token_generators import gen_email_token
+
+load_dotenv()
+frontend_host = os.environ.get('FRONTEND_HOST') if not os.environ.get(
+    'FRONTEND_HOST') is None else "http://localhost:3000"
 
 
 def email_choose(user_type, data):
@@ -43,7 +50,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         data = {
             "email": validated_data['email'],
-            "email_verify_link": f"https://localhost/api/auth/verify_email/{validated_data['email_token']}"
+            "email_verify_link": f"{frontend_host}/VerifyEmail/{validated_data['email_token']}"
         }
 
         email_choose(user_type, data)
