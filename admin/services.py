@@ -1,6 +1,7 @@
 from admin.helpers import create_admin
 from admin.models import SystemAdmin
 from authentication.enums import VolunteerVioState
+from authentication.models import User
 from opportunity.enums import OpportunityState
 from opportunity.models import Opportunity
 from vio.models import Vio
@@ -54,6 +55,8 @@ class AdminService:
     def getListOfAdmins():
         try:
             admins = SystemAdmin.objects.all().values()
+            for admin in admins:
+                admin["user"] = User.objects.filter(id=admin.user_id).values()[0]
             return admins
 
         except SystemAdmin.DoesNotExist as no_user:
