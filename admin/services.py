@@ -53,7 +53,7 @@ class AdminService:
     @staticmethod
     def getListOfAdmins():
         try:
-            admins = SystemAdmin.objects.get().values()
+            admins = SystemAdmin.objects.all().values()
             return admins
 
         except SystemAdmin.DoesNotExist as no_user:
