@@ -49,3 +49,11 @@ class OpportunityService:
             return opportunity
 
         return None
+
+    @staticmethod
+    def getOpportunityByVioId(vio_id):
+        if Opportunity.objects.filter(vio_id=vio_id, state=OpportunityState.APPROVED).exists():
+            opportunity = Opportunity.objects.filter(vio_id=vio_id).values()
+            return opportunity
+
+        return None
