@@ -1,3 +1,4 @@
+from admin.helpers import create_admin
 from admin.models import SystemAdmin
 from authentication.enums import VolunteerVioState
 from opportunity.enums import OpportunityState
@@ -7,6 +8,15 @@ from volunteer.models import Volunteer
 
 
 class AdminService:
+    @staticmethod
+    def createAdmin(email, first_name, last_name, nic):
+        return create_admin(
+            email,
+            first_name,
+            last_name,
+            nic
+        )
+
     @staticmethod
     def approveOpportunity(opportunity_id, approve):
         try:

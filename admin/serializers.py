@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from admin.models import SystemAdmin
-from authentication.models import User
 from volunteer.models import Volunteer
 
 
@@ -18,9 +17,6 @@ class AdminRegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if SystemAdmin.objects.filter(nic=attrs['nic']).exists() or Volunteer.objects.filter(nic=attrs['nic']).exists():
             raise serializers.ValidationError({'message': 'NIC already in use'})
-
-        if User.objects.filter(email=attrs["email"]).exists():
-            raise serializers.ValidationError({'message': "Email already exist in system"})
 
         # nic regix validation
 

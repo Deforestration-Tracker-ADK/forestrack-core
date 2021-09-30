@@ -5,10 +5,10 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from admin.forms import ApproveForm
-from admin.helpers import create_admin
 from admin.permissions import IsAdmin
 from admin.serializers import AdminRegisterSerializer
 from admin.services import AdminService
+from authentication.models import User
 
 
 class InviteAdminView(GenericAPIView):
@@ -19,11 +19,17 @@ class InviteAdminView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            admin = create_admin(
+            if not request.data["email"]:
+                return response.Response({"message": "Please add email"})
+
+            if User.objects.filter(email=request.data["email"]).exists():
+                return response.Response({"message": "NIC already exist in system"})
+
+            admin = AdminService.createAdmin(
                 request.data["email"],
                 serializer.validated_data["first_name"],
                 serializer.validated_data["last_name"],
-                serializer.validated_data["nic"]
+                serializer.validated_data["nic"],
             )
             return response.Response(admin, status=status.HTTP_201_CREATED)
 
