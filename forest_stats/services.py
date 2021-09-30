@@ -15,7 +15,9 @@ stats_title = [
 class ForestStatsService:
     @staticmethod
     def get_stats_district(district):
-        result_stats = {}
+        result_stats = {
+            "district": district,
+        }
         past_2_months_stat = ForestStats.objects.filter(district=district).order_by("-created_at").values()[:2]
         result_stats["last_month"] = past_2_months_stat[0]
         change_percentage = {}
