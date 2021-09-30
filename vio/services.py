@@ -23,6 +23,6 @@ class VioService:
     @staticmethod
     def getVio(state=VolunteerVioState.APPROVED, num_of=None):
         if num_of is None:
-            return Vio.objects.filter(state=state).order_by("created_at").values()
+            return Vio.objects.filter(state=state).order_by("-created_at").values()
         else:
-            return Vio.objects.filter(state=state).order_by("created_at").values()[:num_of]
+            return Vio.objects.filter(state=state).order_by("-created_at").values()[:num_of]
