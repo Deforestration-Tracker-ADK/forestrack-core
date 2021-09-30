@@ -47,4 +47,4 @@ def create_admin(email, first_name, last_name, nic, password=None):
         last_name=last_name,
         nic=nic,
     )
-    return admin.serializable_value()
+    return SystemAdmin.objects.filter(user=user).values()[0]
