@@ -1,6 +1,6 @@
 # Create your views here.
 from django.db import transaction
-from rest_framework import response, status
+from rest_framework import response, status, permissions
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -9,6 +9,19 @@ from admin.permissions import IsAdmin
 from admin.serializers import AdminRegisterSerializer
 from admin.services import AdminService
 from authentication.models import User
+from helpers.models import get_profile_user
+
+
+class AuthVioAPIView(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated, IsAdmin)
+
+    @staticmethod
+    def get(request):
+        # print(request)
+        profile = get_profile_user(request.user)
+
+        serializer = AdminRegisterSerializer(profile)
+        return response.Response({"admin": serializer.data})
 
 
 class InviteAdminView(GenericAPIView):
