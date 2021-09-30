@@ -12,7 +12,7 @@ from authentication.models import User
 from helpers.models import get_profile_user
 
 
-class AuthVioAPIView(GenericAPIView):
+class AuthAdminAPIView(GenericAPIView):
     permission_classes = (permissions.IsAuthenticated, IsAdmin)
 
     @staticmethod
