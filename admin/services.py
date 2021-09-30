@@ -56,7 +56,8 @@ class AdminService:
         try:
             admins = SystemAdmin.objects.all().values()
             for admin in admins:
-                admin["user"] = User.objects.filter(id=admin.user_id).values()[0]
+                print(admin)
+                admin["user"] = User.objects.filter(id=admin["user_id"]).values()[0]
             return admins
 
         except SystemAdmin.DoesNotExist as no_user:
