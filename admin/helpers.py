@@ -1,3 +1,5 @@
+import os
+
 import environ
 from django.db import transaction
 from dotenv import load_dotenv
@@ -10,6 +12,8 @@ from helpers.token_generators import gen_password, gen_email_token
 
 load_dotenv()
 env = environ.Env()
+frontend_host = os.environ.get('FRONTEND_HOST') if not os.environ.get(
+    'FRONTEND_HOST') is None else "http://localhost:3000"
 
 
 def create_core_admin():
@@ -38,6 +42,7 @@ def create_admin(email, first_name, last_name, nic, password=None):
         "email": email,
         "password": password,
         "token": email_token,
+        "email_verify_link": f"{frontend_host}/VerifyEmail/{email_token}"
     }
     admin_invitation_email(email, email_details)
     user = User.objects.create_superuser(email, UserType.ADMIN, password, email_token)
