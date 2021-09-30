@@ -47,4 +47,4 @@ def create_admin(email, first_name, last_name, nic, password=None):
         last_name=last_name,
         nic=nic,
     )
-    return admin
+    return admin.serializable_value()
