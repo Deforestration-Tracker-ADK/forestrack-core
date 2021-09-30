@@ -64,6 +64,9 @@ class RegisterReportAPIView(GenericAPIView):
 
 
 class GetReportByDistrict(GenericAPIView):
+    permission_classes = []
+    authentication_classes = []
+
     @staticmethod
     def get(request, district):
         if district is None:
@@ -75,6 +78,9 @@ class GetReportByDistrict(GenericAPIView):
 
 
 class GetReportWithImagesById(GenericAPIView):
+    permission_classes = []
+    authentication_classes = []
+    
     @staticmethod
     def get(request, report_id):
         report = ReportService.get_report_with_image(report_id)
