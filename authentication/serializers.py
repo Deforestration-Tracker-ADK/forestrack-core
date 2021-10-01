@@ -3,6 +3,8 @@ import os
 from django.db import transaction
 from dotenv import load_dotenv
 from rest_framework import serializers
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from authentication.models import User, UserType
 from helpers.email_sender.vio_email_verification import vio_email_verify
@@ -72,3 +74,22 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'password', 'token', 'user_type', 'state')
 
         read_only_fields = ['token']
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    default_error_messages = {
+        "bad token": "Token is expired or invalid"
+    }
+
+    def validate(self, attrs):
+        self.token = attrs["refresh"]
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            RefreshToken(self.token).blacklist()
+
+        except TokenError:
+            self.fail("bad token")

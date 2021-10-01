@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate
 from rest_framework import response, status
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from authentication.enums import UserState
 from authentication.models import UserType
-from authentication.serializers import LoginSerializer
+from authentication.serializers import LoginSerializer, LogoutSerializer
 from authentication.services import AuthService
 from vio.models import Vio
 from volunteer.models import Volunteer
@@ -52,3 +53,17 @@ class EmailVerifyView(GenericAPIView):
             return response.Response(True, status=status.HTTP_200_OK)
 
         return response.Response({"message": "Invalid email token"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutAPIView(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+    serializer_class = LogoutSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return response.Response(True, status=status.HTTP_200_OK)
+
+        return response.Response(False, status=status.HTTP_400_BAD_REQUEST)

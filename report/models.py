@@ -12,9 +12,9 @@ class DeforestationReport(TrackingModel):
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
     district = models.CharField(blank=True, max_length=25)
     severity = models.IntegerField(blank=True)
-    recent = models.BooleanField(blank=True)
-    action_description = models.CharField(blank=True, max_length=500)
-    special_notes = models.CharField(blank=True, max_length=500)
+    recent = models.CharField(blank=True, max_length=750)
+    action_description = models.CharField(blank=True, max_length=750)
+    special_notes = models.CharField(blank=True, max_length=750)
 
 
 class ReportPhoto(TrackingModel):
