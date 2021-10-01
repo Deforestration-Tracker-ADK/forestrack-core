@@ -95,12 +95,13 @@ class ApproveVolunteer(GenericAPIView):
     @staticmethod
     @transaction.atomic
     def post(request):
-        form = ApproveForm(request.data, request.FILES)
+        form = ApproveForm(data=request.data)
         if form.is_valid():
             approve = request.data.get("approve")
             user_id = request.data.get("id")
             if AdminService.approveVolunteer(user_id, approve):
-                return response.Response({"message": "Volunteer has been approved"},
+                message = "Volunteer has been approved" if approve else "Volunteer has been Rejected"
+                return response.Response({"message": message},
                                          status=status.HTTP_200_OK)
 
             return response.Response({"message": "No such Volunteer present or email not verified"},

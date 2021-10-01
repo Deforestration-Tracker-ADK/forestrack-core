@@ -1,9 +1,9 @@
-from django import forms
+from rest_framework import serializers
 
 from authentication.enums import UserType
 
 
-class ApproveForm(forms.Form):
-    approve = forms.BooleanField(required=True)
-    id = forms.IntegerField(required=True)
-    user_type = forms.ChoiceField(choices=UserType.choices, required=False)
+class ApproveForm(serializers.Serializer):
+    approve = serializers.BooleanField(required=True)
+    id = serializers.IntegerField(required=True)
+    user_type = serializers.ChoiceField(choices=UserType.choices, required=False)
