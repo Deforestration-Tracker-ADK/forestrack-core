@@ -79,6 +79,5 @@ class GetVioByID(GenericAPIView):
 
     @staticmethod
     def get(request, vio_id):
-        return response.Response(VioService.getVioByid(vio_id),
+        return response.Response(VioService.getVioById(vio_id),
                                  status=status.HTTP_200_OK)
-
