@@ -80,7 +80,8 @@ class ApproveVio(GenericAPIView):
             approve = request.data.get("approve")
             user_id = request.data.get("id")
             if AdminService.approveVio(user_id, approve):
-                return response.Response({"message": "Vio has been approved"},
+                message = "Vio has been approved" if approve else "Vio has been Rejected"
+                return response.Response({"message": message},
                                          status=status.HTTP_200_OK)
 
             return response.Response({"message": "No such Vio present or email is not verified"},
