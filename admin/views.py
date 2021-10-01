@@ -55,7 +55,7 @@ class ApproveOpportunity(GenericAPIView):
     @staticmethod
     @transaction.atomic
     def post(request):
-        form = ApproveForm(request.data, request.FILES)
+        form = ApproveForm(data=request.data)
         if form.is_valid():
             approve = request.data.get("approve")
             opportunity_id = request.data.get("id")
@@ -75,7 +75,7 @@ class ApproveVio(GenericAPIView):
     @staticmethod
     @transaction.atomic
     def post(request):
-        form = ApproveForm(request.data, request.FILES)
+        form = ApproveForm(data=request.data)
         if form.is_valid():
             approve = request.data.get("approve")
             user_id = request.data.get("id")
