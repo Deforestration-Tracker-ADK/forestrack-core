@@ -1,4 +1,5 @@
 from authentication.enums import VolunteerVioState
+from authentication.models import User
 from opportunity.enums import VolunteerOpportunityState
 from opportunity.models import VolunteerOpportunity
 from vio.models import Vio
@@ -26,3 +27,11 @@ class VioService:
             return Vio.objects.filter(state=state).order_by("-created_at").values()
         else:
             return Vio.objects.filter(state=state).order_by("-created_at").values()[:num_of]
+
+    @staticmethod
+    def getVioById(vio_id):
+        volunteer = Vio.objects.filter(user_id=vio_id).values()[0]
+        user = User.objects.filter(id=vio_id).values()[0]
+        volunteer["user"] = user
+
+        return volunteer

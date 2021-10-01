@@ -72,3 +72,13 @@ class GetAllUnapprovedVio(GenericAPIView):
     def get(request):
         return response.Response(VioService.getVio(state=VolunteerVioState.UNAPPROVED),
                                  status=status.HTTP_200_OK)
+
+
+class GetVioByID(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def get(request, vio_id):
+        return response.Response(VioService.getVioByid(vio_id),
+                                 status=status.HTTP_200_OK)
+

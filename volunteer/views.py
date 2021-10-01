@@ -68,3 +68,12 @@ class GetAllUnapprovedVolunteer(GenericAPIView):
     def get(request):
         return response.Response(VolunteerService.getVolunteer(state=VolunteerVioState.UNAPPROVED),
                                  status=status.HTTP_200_OK)
+
+
+class GetVolunteerByID(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @staticmethod
+    def get(request, volunteer_id):
+        return response.Response(VolunteerService.getVolunteerByid(volunteer_id),
+                                 status=status.HTTP_200_OK)
