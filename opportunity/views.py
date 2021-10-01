@@ -114,9 +114,6 @@ class GetOpportunityById(GenericAPIView):
         if opportunity_id is None:
             return response.Response({"message": "opportunity Id undefined"}, status=status.HTTP_400_BAD_REQUEST)
         opportunity = OpportunityService.getOpportunityById(opportunity_id)
-        if opportunity is None:
-            return response.Response({"message": "No such opportunity"}, status=status.HTTP_400_BAD_REQUEST)
-
         return response.Response(opportunity, status=status.HTTP_200_OK)
 
 

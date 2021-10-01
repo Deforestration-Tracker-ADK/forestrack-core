@@ -49,7 +49,7 @@ class OpportunityService:
 
             return opportunity
 
-        return None
+        return []
 
     @staticmethod
     def getOpportunityByVioId(vio_id):
