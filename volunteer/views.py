@@ -75,5 +75,5 @@ class GetVolunteerByID(GenericAPIView):
 
     @staticmethod
     def get(request, volunteer_id):
-        return response.Response(VolunteerService.getVolunteerByid(volunteer_id),
+        return response.Response(VolunteerService.getVolunteerById(volunteer_id),
                                  status=status.HTTP_200_OK)
