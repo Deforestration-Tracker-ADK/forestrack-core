@@ -55,3 +55,8 @@ class OpportunityService:
     def getOpportunityByVioId(vio_id):
         opportunity = Opportunity.objects.filter(vio_id=vio_id).values()
         return opportunity
+
+    @staticmethod
+    def getOpportunitiesForVio(vio_id, state):
+        opportunity = Opportunity.objects.filter(vio_id=vio_id, state=state).values()
+        return opportunity
