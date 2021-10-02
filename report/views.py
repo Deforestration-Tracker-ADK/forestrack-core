@@ -35,7 +35,7 @@ class RegisterReportAPIView(GenericAPIView):
 
         data = {}
         long = request.data.get("long", None)
-        district = None  # request.data.get("district", None)
+        district = request.data.get("district", None)
 
         if district is None:
             return response.Response({"district": "Please select a district"}, status=status.HTTP_400_BAD_REQUEST)
