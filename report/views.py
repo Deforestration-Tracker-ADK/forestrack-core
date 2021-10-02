@@ -51,14 +51,19 @@ class RegisterReportAPIView(GenericAPIView):
         data["recent"] = request.data.get("recent")
         data["action_description"] = request.data.get("action_description")
         data["special_notes"] = request.data.get("special_notes")
+        data["location"] = request.data.get("location")
         report = DeforestationReport.objects.create(**data)
 
         if images:
+            n = 0
             for image in images:
                 ReportPhoto.objects.create(
                     report=report,
                     image=image,
                 )
+                n += 1
+
+            print(n)
 
         return response.Response({"message": "report successfully created"}, status=status.HTTP_201_CREATED)
 
