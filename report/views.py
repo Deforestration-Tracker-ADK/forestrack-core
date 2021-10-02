@@ -27,7 +27,7 @@ class RegisterReportAPIView(GenericAPIView):
 
     @staticmethod
     def post(request):
-        post_form = ReportForm(request.POST)
+        post_form = ReportForm(data=request.data)
         images = request.FILES.getlist("images", None)
 
         if not post_form.is_valid():
@@ -80,7 +80,7 @@ class GetReportByDistrict(GenericAPIView):
 class GetReportWithImagesById(GenericAPIView):
     permission_classes = []
     authentication_classes = []
-    
+
     @staticmethod
     def get(request, report_id):
         report = ReportService.get_report_with_image(report_id)
