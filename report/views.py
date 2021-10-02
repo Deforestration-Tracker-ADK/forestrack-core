@@ -34,8 +34,8 @@ class RegisterReportAPIView(GenericAPIView):
             return response.Response(post_form.errors, status=status.HTTP_400_BAD_REQUEST)
 
         data = {}
-        long = request.POST.get("long", None)
-        district = request.POST.get("district", None)
+        long = request.data.get("long", None)
+        district = request.data.get("district", None)
 
         if district is None:
             return response.Response({"district": "Please select a district"}, status=status.HTTP_400_BAD_REQUEST)
@@ -46,11 +46,11 @@ class RegisterReportAPIView(GenericAPIView):
 
         print(request.user.id)
         data["volunteer"] = Volunteer.objects.get(user_id=request.user.id)
-        data["severity"] = request.POST.get("severity")
-        data["district"] = request.POST.get("district")
-        data["recent"] = request.POST.get("recent")
-        data["action_description"] = request.POST.get("action_description")
-        data["special_notes"] = request.POST.get("special_notes")
+        data["severity"] = request.data.get("severity")
+        data["district"] = request.data.get("district")
+        data["recent"] = request.data.get("recent")
+        data["action_description"] = request.data.get("action_description")
+        data["special_notes"] = request.data.get("special_notes")
         report = DeforestationReport.objects.create(**data)
 
         if images:
