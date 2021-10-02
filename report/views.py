@@ -29,7 +29,7 @@ class RegisterReportAPIView(GenericAPIView):
     def post(request):
         post_form = ReportForm(data=request.data)
         images = request.FILES.getlist("images", None)
-        print(images)
+        print(request)
 
         if not post_form.is_valid():
             return response.Response(post_form.errors, status=status.HTTP_400_BAD_REQUEST)
