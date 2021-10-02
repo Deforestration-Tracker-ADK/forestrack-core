@@ -9,6 +9,7 @@ class ReportForm(forms.Form):
     recent = forms.CharField(required=True, max_length=750)
     action_description = forms.CharField(required=True, max_length=750)
     special_notes = forms.CharField(required=True, max_length=750)
+    location = forms.CharField(required=True, max_length=750)
 
 
 class ReportPhotoForm(forms.ModelForm):

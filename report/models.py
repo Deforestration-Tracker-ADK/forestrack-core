@@ -11,6 +11,7 @@ class DeforestationReport(TrackingModel):
     lat = models.DecimalField(blank=True, decimal_places=7, max_digits=10)
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
     district = models.CharField(blank=True, max_length=25)
+    location = models.CharField(blank=False, max_length=750)
     severity = models.IntegerField(blank=True)
     recent = models.CharField(blank=True, max_length=750)
     action_description = models.CharField(blank=True, max_length=750)
