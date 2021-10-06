@@ -14,18 +14,33 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # from django.contrib import admin
-from django.conf.urls import url
 from django.urls import path, include
-from rest_framework_swagger.views import get_swagger_view
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
 from admin.helpers import create_core_admin
 
 create_core_admin()
-schema_view = get_swagger_view(title='ForestRack API')
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Forestrack API",
+        default_version="v1",
+        description="API for the forestrack system.",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="devin.18@cse.mrt.ac.lk", name="Devin De Silva"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+    authentication_classes=[],
+)
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    url(r'^$', schema_view),
+    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/opportunity/', include('opportunity.urls')),
     path('api/forest_stats/', include('forest_stats.urls')),
     path('api/reports/', include('report.urls')),
