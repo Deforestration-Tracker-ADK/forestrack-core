@@ -7,9 +7,15 @@ class OpportunityService:
     @staticmethod
     def getOpportunities(state=OpportunityState.APPROVED, num_of=None):
         if num_of is None:
-            return Opportunity.objects.filter(state=state).order_by("-created_at").values()
+            opportunities = Opportunity.objects.filter(state=state).order_by("-created_at").values()
+            for opportunity in opportunities:
+                opportunity["vio"] = Vio.objects.filter(user_id=opportunity["vio_id"]).values()[0]
+            return opportunities
         else:
-            return Opportunity.objects.filter(state=state).order_by("-created_at").values()[:num_of]
+            opportunities = Opportunity.objects.filter(state=state).order_by("-created_at").values()[:num_of]
+            for opportunity in opportunities:
+                opportunity["vio"] = Vio.objects.filter(user_id=opportunity["vio_id"]).values()[0]
+            return opportunities
 
     @staticmethod
     def getVolunteerOpportunitiesForVolunteer(vol_id, state=VolunteerOpportunityState.ACCEPTED, num_of=None):
