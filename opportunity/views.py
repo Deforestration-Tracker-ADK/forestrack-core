@@ -99,7 +99,7 @@ class SearchOpportunity(GenericAPIView):
 
     @staticmethod
     def get(request):
-        search_term = request.params.get("search")
+        search_term = request.query_params.get("search")
         if search_term is None:
             response.Response("No Search term provided", status=status.HTTP_400_BAD_REQUEST)
 

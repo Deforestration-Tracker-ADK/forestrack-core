@@ -43,7 +43,7 @@ class OpportunityService:
         if num_of is None:
             return Opportunity.objects.filter(name__unaccent__icontains=search_term).order_by('-created_at').values()
         else:
-            return VolunteerOpportunity.objects.filter(name__unaccent__icontains=search_term).order_by(
+            return Opportunity.objects.filter(name__unaccent__icontains=search_term).order_by(
                 "created_at").values()[:num_of]
 
     @staticmethod
