@@ -60,7 +60,8 @@ class ApproveOpportunity(GenericAPIView):
             approve = request.data.get("approve")
             opportunity_id = request.data.get("id")
             if AdminService.approveOpportunity(opportunity_id, approve):
-                return response.Response({"message": "Opportunity has been approved"},
+                message = "Opportunity has been Approved" if approve else "Opportunity has been Rejected"
+                return response.Response({"message": message},
                                          status=status.HTTP_200_OK)
 
             return response.Response({"message": "No such Opportunity is present OR Opportunity already approved"},
