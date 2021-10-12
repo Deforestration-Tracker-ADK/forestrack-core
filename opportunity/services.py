@@ -1,6 +1,7 @@
 from opportunity.enums import OpportunityState, VolunteerOpportunityState
 from opportunity.models import Opportunity, VolunteerOpportunity
 from vio.models import Vio
+from volunteer.models import Volunteer
 
 
 class OpportunityService:
@@ -30,11 +31,23 @@ class OpportunityService:
     @staticmethod
     def getVolunteerOpportunitiesForVolunteer(vol_id, state=VolunteerOpportunityState.ACCEPTED, num_of=None):
         if num_of is None:
-            return VolunteerOpportunity.objects.filter(volunteer_id=vol_id, state=state).order_by(
+            vol_opp_list = VolunteerOpportunity.objects.filter(volunteer_id=vol_id, state=state).order_by(
                 "-created_at").values()
+
+            for vol_opp in vol_opp_list:
+                vol_opp["volunteer"] = Volunteer.objects.filter(user_id=vol_opp["volunteer_id"]).values()[0]
+                vol_opp["opportunity"] = Opportunity.objects.filter(id=vol_opp["opportunity_id"]).values()[0]
+
+            return vol_opp_list
         else:
-            return VolunteerOpportunity.objects.filter(volunteer_id=vol_id, state=state).order_by(
-                "created_at").values()[:num_of]
+            vol_opp_list = VolunteerOpportunity.objects.filter(volunteer_id=vol_id, state=state).order_by(
+                "-created_at").values()[:num_of]
+
+            for vol_opp in vol_opp_list:
+                vol_opp["volunteer"] = Volunteer.objects.filter(user_id=vol_opp["volunteer_id"]).values()[0]
+                vol_opp["opportunity"] = Opportunity.objects.filter(id=vol_opp["opportunity_id"]).values()[0]
+
+            return vol_opp_list
 
     @staticmethod
     def getVolunteersForOpportunity(opportunity_id, state=VolunteerOpportunityState.ACCEPTED, num_of=None):
