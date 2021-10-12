@@ -6,6 +6,8 @@ urlpatterns = [
     path('register', views.RegisterAPIView.as_view(), name="opportunity_register"),
     path("approved", views.GetApprovedOpportunity.as_view(), name="get_opportunities_approved"),
     path("getOpportunity/<opportunity_id>", views.GetOpportunityById.as_view(), name="get_opportunity_by_id"),
+    path("completeOpportunity/<opportunity_id>", views.CompleteOpportunityById.as_view(),
+         name="complete_opportunity_by_id"),
     path("get/unapproved", views.GetUnapprovedOpportunity.as_view(), name="get_opportunities_unapproved"),
     path("vio/<vio_id>", views.GetOpportunityByForVio.as_view(), name="Get Opportunity for Vio"),
     path("vio/unaccepted/<vio_id>", views.GetUnapprovedOpportunityForVio.as_view(), name="Get Opportunity for Vio"),

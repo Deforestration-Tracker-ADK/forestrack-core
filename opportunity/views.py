@@ -135,3 +135,18 @@ class GetUnapprovedOpportunityForVio(GenericAPIView):
     def get(request, vio_id):
         return response.Response(OpportunityService.getOpportunitiesForVio(vio_id, state=OpportunityState.UNAPPROVED),
                                  status=status.HTTP_200_OK)
+
+
+class CompleteOpportunityById(GenericAPIView):
+    permission_classes = [IsAuthenticated, IsVio]
+
+    @staticmethod
+    def post(request, opportunity_id):
+        if opportunity_id is None:
+            return response.Response({"message": "opportunity Id undefined"}, status=status.HTTP_400_BAD_REQUEST)
+
+        opportunity = OpportunityService.completeOpportunity(opportunity_id, request.user)
+        if opportunity is None:
+            return response.Response({"message": "No opportunity with that id"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return response.Response(True, status=status.HTTP_200_OK)

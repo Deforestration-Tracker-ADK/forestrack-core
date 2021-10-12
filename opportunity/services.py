@@ -5,6 +5,16 @@ from vio.models import Vio
 
 class OpportunityService:
     @staticmethod
+    def completeOpportunity(opportunity_id, user):
+        if Opportunity.objects.filter(id=opportunity_id, vio_id=user.id, state=OpportunityState.APPROVED).exists():
+            opportunity = Opportunity.objects.get(id=opportunity_id)
+            opportunity.state = OpportunityState.COMPLETED
+            opportunity.save()
+            return True
+
+        return None
+
+    @staticmethod
     def getOpportunities(state=OpportunityState.APPROVED, num_of=None):
         if num_of is None:
             opportunities = Opportunity.objects.filter(state=state).order_by("-created_at").values()

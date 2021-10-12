@@ -7,6 +7,7 @@ class OpportunityState(models.TextChoices):
     UNAPPROVED = 'UNAPPROVED', _('Unapproved')
     REJECTED = "REJECTED", _('Rejected')
     APPROVED = 'APPROVED', _('Approved')
+    COMPLETED = "COMPLETED", _("Complete")
 
 
 class VolunteerOpportunityState(models.TextChoices):
