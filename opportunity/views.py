@@ -137,6 +137,15 @@ class GetUnapprovedOpportunityForVio(GenericAPIView):
                                  status=status.HTTP_200_OK)
 
 
+class GetApprovedOpportunityForVio(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, vio_id):
+        return response.Response(OpportunityService.getOpportunitiesForVio(vio_id, state=OpportunityState.APPROVED),
+                                 status=status.HTTP_200_OK)
+
+
 class CompleteOpportunityById(GenericAPIView):
     permission_classes = [IsAuthenticated, IsVio]
 

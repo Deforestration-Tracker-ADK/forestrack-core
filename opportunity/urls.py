@@ -11,6 +11,8 @@ urlpatterns = [
     path("get/unapproved", views.GetUnapprovedOpportunity.as_view(), name="get_opportunities_unapproved"),
     path("vio/<vio_id>", views.GetOpportunityByForVio.as_view(), name="Get Opportunity for Vio"),
     path("vio/unaccepted/<vio_id>", views.GetUnapprovedOpportunityForVio.as_view(), name="Get Opportunity for Vio"),
+    path("vio/approved/<vio_id>", views.GetApprovedOpportunityForVio.as_view(),
+         name="Get Approved opportunities for Vio"),
     path("volunteer/accepted/<vol_id>", views.GetVolunteerAcceptedProjectsForVolunteer.as_view(),
          name="get_volunteer_approved_projects"),
     path("volunteer/pending/<vol_id>", views.GetVolunteerPendingProjectsForVolunteer.as_view(),
