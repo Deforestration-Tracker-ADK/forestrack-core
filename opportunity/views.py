@@ -78,8 +78,8 @@ class GetAcceptedVolunteersForOpportunity(GenericAPIView):
     @staticmethod
     def get(request, opportunity_id):
         return response.Response(
-            OpportunityService.getVolunteerOpportunitiesForVolunteer(opportunity_id,
-                                                                     state=VolunteerOpportunityState.COMPLETED),
+            OpportunityService.getVolunteerOpportunitiesForOpportunity(opportunity_id,
+                                                                       state=VolunteerOpportunityState.ACCEPTED),
             status=status.HTTP_200_OK)
 
 
@@ -89,8 +89,19 @@ class GetPendingVolunteersForOpportunity(GenericAPIView):
     @staticmethod
     def get(request, opportunity_id):
         return response.Response(
-            OpportunityService.getVolunteerOpportunitiesForVolunteer(opportunity_id,
-                                                                     state=VolunteerOpportunityState.COMPLETED),
+            OpportunityService.getVolunteerOpportunitiesForOpportunity(opportunity_id,
+                                                                       state=VolunteerOpportunityState.PENDING),
+            status=status.HTTP_200_OK)
+
+
+class GetCompletedVolunteersForOpportunity(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, opportunity_id):
+        return response.Response(
+            OpportunityService.getVolunteerOpportunitiesForOpportunity(opportunity_id,
+                                                                       state=VolunteerOpportunityState.COMPLETED),
             status=status.HTTP_200_OK)
 
 

@@ -50,13 +50,25 @@ class OpportunityService:
             return vol_opp_list
 
     @staticmethod
-    def getVolunteersForOpportunity(opportunity_id, state=VolunteerOpportunityState.ACCEPTED, num_of=None):
+    def getVolunteerOpportunitiesForOpportunity(opportunity_id, state=VolunteerOpportunityState.ACCEPTED, num_of=None):
         if num_of is None:
-            return VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id, state=state).order_by(
+            vol_opp_list = VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id, state=state).order_by(
                 "created_at").values()
+
+            for vol_opp in vol_opp_list:
+                vol_opp["volunteer"] = Volunteer.objects.filter(user_id=vol_opp["volunteer_id"]).values()[0]
+                vol_opp["opportunity"] = Opportunity.objects.filter(id=vol_opp["opportunity_id"]).values()[0]
+
+            return vol_opp_list
         else:
-            return VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id, state=state).order_by(
+            vol_opp_list = VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id, state=state).order_by(
                 "created_at").values()[:num_of]
+
+            for vol_opp in vol_opp_list:
+                vol_opp["volunteer"] = Volunteer.objects.filter(user_id=vol_opp["volunteer_id"]).values()[0]
+                vol_opp["opportunity"] = Opportunity.objects.filter(id=vol_opp["opportunity_id"]).values()[0]
+
+            return vol_opp_list
 
     @staticmethod
     def searchOpportunitiesByName(search_term, num_of=None):
