@@ -23,9 +23,16 @@ class OpportunityService:
         if Opportunity.objects.filter(id=opportunity_id, vio_id=user.id, state=OpportunityState.APPROVED).exists():
             opportunity = Opportunity.objects.get(id=opportunity_id)
 
-            volunteer_opportunities = VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id)
-            for volunteer_opportunity in volunteer_opportunities:
+            volunteer_opportunities_accepted = VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id,
+                                                                                   state=VolunteerOpportunityState.ACCEPTED)
+            for volunteer_opportunity in volunteer_opportunities_accepted:
                 volunteer_opportunity.state = VolunteerOpportunityState.COMPLETED
+                volunteer_opportunity.save()
+
+            volunteer_opportunities_unaccepted = VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id,
+                                                                                     state=VolunteerOpportunityState.PENDING)
+            for volunteer_opportunity in volunteer_opportunities_unaccepted:
+                volunteer_opportunity.state = VolunteerOpportunityState.UNACCEPTED_COMPLETE
                 volunteer_opportunity.save()
 
             opportunity.state = OpportunityState.COMPLETED
