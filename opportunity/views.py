@@ -94,6 +94,16 @@ class GetPendingVolunteersForOpportunity(GenericAPIView):
             status=status.HTTP_200_OK)
 
 
+class GetVolOppFromId(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    @staticmethod
+    def get(request, vol_opp_id):
+        return response.Response(
+            OpportunityService.getVolunteerOpportunitiesFromId(vol_opp_id),
+            status=status.HTTP_200_OK)
+
+
 class GetCompletedVolunteersForOpportunity(GenericAPIView):
     permission_classes = [IsAuthenticated, ]
 
