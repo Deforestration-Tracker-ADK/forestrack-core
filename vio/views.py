@@ -42,12 +42,13 @@ class AcceptVolunteerForOpportunity(GenericAPIView):
 
     @staticmethod
     def post(request):
-        form = AcceptVolunteerOpportunity(request.data, request.FILES)
+        form = AcceptVolunteerOpportunity(data=request.data)
         if form.is_valid():
             approve = request.data.get("approve")
             vol_opp_id = request.data.get("vol_opp_id")
             if VioService.approveVolunteerForOpportunity(vol_opp_id, approve, request.user):
-                return response.Response({"message": "Volunteer has been approved"},
+                message = "Volunteer has been approved" if approve else "Volunteer has been rejected"
+                return response.Response({"message": message},
                                          status=status.HTTP_200_OK)
 
             return response.Response({"message": "No such Volunteer Request for this volunteer present"},

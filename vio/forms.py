@@ -1,6 +1,6 @@
-from django import forms
+from rest_framework import serializers
 
 
-class AcceptVolunteerOpportunity(forms.Form):
-    approve = forms.BooleanField(required=True)
-    vol_opp_id = forms.IntegerField(required=True)
+class AcceptVolunteerOpportunity(serializers.Serializer):
+    approve = serializers.BooleanField(required=True)
+    vol_opp_id = serializers.IntegerField(required=True)
