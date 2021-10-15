@@ -11,7 +11,7 @@ class OpportunityService:
         if VolunteerOpportunity.objects.filter(id=vol_opp_id).exists():
             vol_opp = VolunteerOpportunity.objects.filter(id=vol_opp_id).values()[0]
             vol_opp["volunteer"] = Volunteer.objects.filter(user_id=vol_opp["volunteer_id"]).values()[0]
-            vol_opp["Opportunity"] = Opportunity.objects.filter(id=vol_opp["opportunity_id"]).values()[0]
+            vol_opp["opportunity"] = Opportunity.objects.filter(id=vol_opp["opportunity_id"]).values()[0]
             return vol_opp
 
         return None
