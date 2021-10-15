@@ -22,6 +22,12 @@ class OpportunityService:
     def completeOpportunity(opportunity_id, user):
         if Opportunity.objects.filter(id=opportunity_id, vio_id=user.id, state=OpportunityState.APPROVED).exists():
             opportunity = Opportunity.objects.get(id=opportunity_id)
+
+            volunteer_opportunities = VolunteerOpportunity.objects.filter(opportunity_id=opportunity_id)
+            for volunteer_opportunity in volunteer_opportunities:
+                volunteer_opportunity.state = VolunteerOpportunityState.COMPLETED
+                volunteer_opportunity.save()
+
             opportunity.state = OpportunityState.COMPLETED
             opportunity.save()
             return True
