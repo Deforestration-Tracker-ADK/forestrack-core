@@ -60,6 +60,13 @@ INSTALLED_APPS = [
 
 ]
 
+SECURE_HSTS_SECONDS = 31536000
+SECURE_SSL_REDIRECT = not DEBUG  # if debug false set this to true
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
@@ -69,11 +76,20 @@ REST_FRAMEWORK = {
     ]
 }
 
-CSP_DEFAULT_SRC = ("'none'",)
-CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
-CSP_SCRIPT_SRC = ("'self'",)
-CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
-CSP_IMG_SRC = ("'self'",)
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+DISABLE_COLLECTSTATIC = 1
+STATIC_URL = '/static/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,8 +106,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'forestrack_core.urls'
 
-CORS_ALLOW_ALL_ORIGINS = True
-SESSION_COOKIE_SECURE = True
+CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://localhost:3009', 'http://localhost:3006', env('FRONTEND_URL'))
 
 TEMPLATES = [
     {
@@ -150,12 +165,36 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# content security policy
+
+# default source as self
+CSP_DEFAULT_SRC = ("'self'",)
+
+# style from our domain only
+CSP_STYLE_SRC = ("'self'",)
+
+# scripts from our domain and google analytics
+CSP_SCRIPT_SRC = ("'self'", "www.google-analytics.com",)
+
+# images from our domain and cloudinary
+CSP_IMG_SRC = ("'self'",
+               env("CLOUDINARY_CLOUD_NAME") + ".cloudinary.com",
+               "www.cloudinary.com",
+               "www.google-analytics.com",)
+
+# loading manifest, workers, frames, etc
+CSP_FONT_SRC = ("'self'",)
+CSP_CONNECT_SRC = ("'self'", "www.google-analytics.com")
+CSP_OBJECT_SRC = ("'self'",)
+CSP_BASE_URI = ("'self'",)
+CSP_FRAME_ANCESTORS = ("'self'",)
+CSP_FORM_ACTION = ("'self'",)
+CSP_INCLUDE_NONCE_IN = ('script-src',)
+CSP_MANIFEST_SRC = ("'self'",)
+CSP_WORKER_SRC = ("'self'",)
+CSP_MEDIA_SRC = ("'self'",)
