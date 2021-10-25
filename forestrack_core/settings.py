@@ -159,6 +159,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 if not DEBUG:
     django_heroku.settings(locals(), test_runner=False)
+    SECURE_SSL_REDIRECT = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
