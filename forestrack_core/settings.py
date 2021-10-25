@@ -65,13 +65,6 @@ INSTALLED_APPS = [
 
 ]
 
-SECURE_HSTS_SECONDS = 31536000
-SECURE_SSL_REDIRECT = not DEBUG  # if debug false set this to true
-SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
-SECURE_HSTS_PRELOAD = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
@@ -157,9 +150,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SECURE_HSTS_SECONDS = 31536000
+SECURE_SSL_REDIRECT = not DEBUG  # if debug false set this to true
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 if not DEBUG:
     django_heroku.settings(locals(), test_runner=False)
-    SECURE_SSL_REDIRECT = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
