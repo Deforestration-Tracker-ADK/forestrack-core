@@ -91,6 +91,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'forestrack_core.urls'
 
 CORS_ALLOW_ALL_ORIGINS = True
+SESSION_COOKIE_SECURE = True
 
 TEMPLATES = [
     {
