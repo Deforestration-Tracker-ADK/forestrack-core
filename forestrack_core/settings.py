@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import csp.middleware
+import django_heroku
 import environ
 from dotenv import load_dotenv
 
@@ -155,6 +156,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+if not DEBUG:
+    django_heroku.settings(locals(), test_runner=False)
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
