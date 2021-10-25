@@ -1,1 +1,2 @@
 test and coverage:- coverage run manage.py test && coverage report && coverage html
+load test cmd :- jmeter -n -t "D:\SEM5-PROJECT\load_testing\forestrack_load_test.jmx" -l "D:\SEM5-PROJECT\load_testing\load_test_results.csv"
