@@ -1,7 +1,11 @@
 [run]
-source = authentication/, volunteer/, vio/, opportunity/,
+source = authentication/, volunteer/, vio/, opportunity/, forest_stats/, report/, helpers/
 omit =
     venv
     */migrations/*
     */tests/*
     */__init__.py
+    */urls.py
+    */apps.py
+    */admin.py
+

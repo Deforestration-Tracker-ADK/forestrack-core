@@ -14,8 +14,7 @@ class RegisterAPIView(GenericAPIView):
     serializer_class = OpportunitySerializer
 
     def post(self, request):
-        data = request.data
-        data["vio_id"] = request.user.id
+        data = {**request.data, "vio_id": request.user.id}
         serializer = self.serializer_class(data=data)
 
         if serializer.is_valid():

@@ -15,7 +15,6 @@ class RegisterAPIView(GenericAPIView):
     serializer_class = VioRegisterSerializer
 
     def post(self, request):
-        print(request.data)
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
@@ -30,7 +29,6 @@ class AuthVioAPIView(GenericAPIView):
 
     @staticmethod
     def get(request):
-        # print(request)
         profile = get_profile_user(request.user)
 
         serializer = VioRegisterSerializer(profile)

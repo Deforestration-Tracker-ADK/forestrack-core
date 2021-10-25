@@ -15,7 +15,6 @@ class RegisterAPIView(GenericAPIView):
     serializer_class = VolunteerRegisterSerializer
 
     def post(self, request):
-        print(request.data)
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():

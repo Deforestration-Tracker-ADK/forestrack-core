@@ -29,7 +29,6 @@ class RegisterReportAPIView(GenericAPIView):
     def post(request):
         post_form = ReportForm(data=request.data)
         images = request.FILES.getlist("images", None)
-        print(request)
 
         if not post_form.is_valid():
             return response.Response(post_form.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -45,7 +44,6 @@ class RegisterReportAPIView(GenericAPIView):
             data["long"] = district_location_Map[district][0]
             data["lat"] = district_location_Map[district][1]
 
-        print(request.user.id)
         data["volunteer"] = Volunteer.objects.get(user_id=request.user.id)
         data["severity"] = request.data.get("severity")
         data["district"] = request.data.get("district")
@@ -64,8 +62,6 @@ class RegisterReportAPIView(GenericAPIView):
                 )
                 n += 1
 
-            print(n)
-
         return response.Response({"message": "report successfully created"}, status=status.HTTP_201_CREATED)
 
 
@@ -78,7 +74,7 @@ class GetReportByDistrict(GenericAPIView):
         if district is None:
             return response.Response({"district": "Please select a district"}, status=status.HTTP_400_BAD_REQUEST)
 
-        reports = ReportService.get_report_without_images(district)
+        reports = ReportService.get_reports_without_images(district)
 
         return response.Response(reports, status=status.HTTP_200_OK)
 
@@ -89,7 +85,7 @@ class GetReportWithImagesById(GenericAPIView):
 
     @staticmethod
     def get(request, report_id):
-        report = ReportService.get_report_with_image(report_id)
+        report = ReportService.get_reports_with_image(report_id)
 
         if report is None:
             return response.Response({"report_id": "No such report"}, status=status.HTTP_400_BAD_REQUEST)

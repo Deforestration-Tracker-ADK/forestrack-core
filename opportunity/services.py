@@ -111,7 +111,6 @@ class OpportunityService:
     def getOpportunityById(opportunity_id):
         if Opportunity.objects.filter(id=opportunity_id).exists():
             opportunity = Opportunity.objects.filter(id=opportunity_id).values()[0]
-            print(opportunity)
             opportunity["vio"] = Vio.objects.filter(user_id=opportunity["vio_id"]).values()[0]
 
             return opportunity

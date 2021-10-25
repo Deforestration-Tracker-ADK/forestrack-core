@@ -11,14 +11,16 @@ class TestUserModel(APITestCase):
         self.assertIsInstance(user, User)
         self.assertFalse(user.is_staff)
         self.assertEqual("devin.18@cse.mrt.ac.lk", user.email)
+        user.delete()
 
     def test_create_super_user(self):
-        user = User.objects.create_superuser("devindesilva123@gmail.com", UserType.VOLUNTEER, "super_password",
+        user = User.objects.create_superuser("donthackmeplease1710@gmail.com", UserType.VOLUNTEER, "super_password",
                                              gen_email_token())
         self.assertIsInstance(user, User)
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_superuser)
-        self.assertEqual("devindesilva123@gmail.com", user.email)
+        self.assertEqual("donthackmeplease1710@gmail.com", user.email)
+        user.delete()
 
     def test_raises_error_when_no_email_is_supplied(self):
         self.assertRaises(ValueError, User.objects.create_user, email='', user_type=UserType.VOLUNTEER,
