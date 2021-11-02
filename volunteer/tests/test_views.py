@@ -1,7 +1,12 @@
 from rest_framework.test import APITestCase, APIClient
 
-from authentication.enums import VolunteerVioState
+from authentication.enums import VolunteerVioState, UserType, UserState
 from authentication.models import User
+from helpers.token_generators import gen_email_token
+from opportunity.enums import OpportunityState
+from opportunity.models import Opportunity
+from vio.models import Vio
+from volunteer.models import Volunteer
 
 
 class VolunteerIntegrationTests(APITestCase):
@@ -41,6 +46,65 @@ class VolunteerIntegrationTests(APITestCase):
         self.main_volunteer_token = response.data["token"]
         self.main_volunteer_id = response.data["id"]
         self.rest_client.credentials(HTTP_AUTHORIZATION="Bearer " + self.main_volunteer_token)
+
+        self.main_vio_data = {
+            "name": "Ocean warriors",
+            "description": "Ocean willl look amazing in the future and we will be apart of it",
+            "registrationNo": "98210kofne",
+            "address": "145/5 Salgas mawatha mattegoda",
+            "contactNumber": "0722334670",
+            "registrationDate": "2017-10-12",
+            "district": "colombo",
+            "user": {
+                "email": "vio1@gmail.com",
+                "password": "password"
+            }
+
+        }
+        user_details = {
+            **self.main_vio_data["user"],
+            "user_type": UserType.VIO,
+            "email_token": gen_email_token(),
+        }
+
+        user = User.objects.create(**user_details)
+        vio_details = {**self.main_vio_data, "user": user}
+        vio = Vio.objects.create(**vio_details)
+        user.state = UserState.EMAIL_VERIFIED
+        vio.state = VolunteerVioState.APPROVED
+        user.save()
+        vio.save()
+        self.vio = vio
+
+    def test_apply_for_opportunity(self):
+        vol = Volunteer.objects.get(user_id=self.main_volunteer_id)
+        vol.state = VolunteerVioState.APPROVED
+        vol.save()
+
+        self.main_opportunity_data_approved = {
+            "name": "approved opportunity",
+            "description": "Shramadhana at sinharaja forest resovior",
+            "address": "address to gether together",
+            "district": "district of the Shramadhana",
+            "start_date": "2021-10-25",
+            "end_date": "2021-10-30",
+            "goals": "The sharamadhana is organized to make the sharamadhana to protect earth",
+            "contactPersonNumber": "0776685899",
+            "numVolunteers": 3,
+            "vio_id": self.vio.user_id,
+        }
+
+        opportunity_approved = Opportunity.objects.create(**self.main_opportunity_data_approved)
+        opportunity_approved.state = OpportunityState.APPROVED
+        opportunity_approved.save()
+        self.opportunity_approved = opportunity_approved
+
+        response = self.rest_client.post("/api/volunteer/opportunity/apply", data={
+            "opportunity_id": self.opportunity_approved.id
+        }, format="json")
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data["opportunity_id"], self.opportunity_approved.id)
 
     def test_auth_volunteer(self):
         response = self.rest_client.get("/api/volunteer/view")

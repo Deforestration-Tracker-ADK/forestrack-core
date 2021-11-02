@@ -15,10 +15,10 @@ from volunteer.models import Volunteer
 
 def get_profile_details(user):
     if user.user_type == UserType.VOLUNTEER:
-        return Volunteer.objects.filter(user=user)
+        return Volunteer.objects.get(user=user)
 
     if user.user_type == UserType.VIO:
-        return Vio.objects.filter(user=user)
+        return Vio.objects.get(user=user)
 
 
 class LoginAPIView(GenericAPIView):
