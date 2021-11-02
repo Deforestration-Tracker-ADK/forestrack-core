@@ -154,7 +154,7 @@ class ForestStatsService:
             img = enhancer.enhance(2)
             img_byte_arr = io.BytesIO()
             img.save(img_byte_arr, format='JPEG')
-            img_byte_arr = f"data:image/png;base64, {base64.b64encode(img_byte_arr.getvalue())}"
+            img_byte_arr = f"\"data:image/png;base64, {base64.b64encode(img_byte_arr.getvalue())}\""
             images.append(img_byte_arr)
         return images
 
