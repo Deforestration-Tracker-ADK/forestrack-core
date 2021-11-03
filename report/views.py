@@ -53,6 +53,7 @@ class RegisterReportAPIView(GenericAPIView):
         data["location"] = request.data.get("location")
         report = DeforestationReport.objects.create(**data)
 
+        print(images)
         if images:
             n = 0
             for image in images:
