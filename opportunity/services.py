@@ -101,11 +101,20 @@ class OpportunityService:
         if search_term is None:
             return None
 
+        opportunity = Opportunity.objects.filter(name__icontains=search_term).order_by('-created_at').values()
+        opportunity = opportunity.union(Opportunity.objects.filter(description__icontains=search_term).order_by(
+            '-created_at').values())
+        opportunity = opportunity.union(Opportunity.objects.filter(district__icontains=search_term).order_by(
+            '-created_at').values())
+        opportunity = opportunity.union(Opportunity.objects.filter(address__icontains=search_term).order_by(
+            '-created_at').values())
+        opportunity = opportunity.union(Opportunity.objects.filter(goals__icontains=search_term).order_by(
+            '-created_at').values())
+
         if num_of is None:
-            return Opportunity.objects.filter(name__unaccent__icontains=search_term).order_by('-created_at').values()
+            return opportunity
         else:
-            return Opportunity.objects.filter(name__unaccent__icontains=search_term).order_by(
-                "created_at").values()[:num_of]
+            return opportunity[:num_of]
 
     @staticmethod
     def getOpportunityById(opportunity_id):
