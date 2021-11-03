@@ -101,24 +101,28 @@ class OpportunityService:
         if search_term is None:
             return None
 
-        opportunity = Opportunity.objects.filter(name__icontains=search_term, state=state).order_by(
+        opportunities = Opportunity.objects.filter(name__icontains=search_term, state=state).order_by(
             '-created_at').values()
-        opportunity = opportunity.union(
+        opportunities = opportunities.union(
             Opportunity.objects.filter(description__icontains=search_term, state=state).order_by(
                 '-created_at').values())
-        opportunity = opportunity.union(
+        opportunities = opportunities.union(
             Opportunity.objects.filter(district__icontains=search_term, state=state).order_by(
                 '-created_at').values())
-        opportunity = opportunity.union(
+        opportunities = opportunities.union(
             Opportunity.objects.filter(address__icontains=search_term, state=state).order_by(
                 '-created_at').values())
-        opportunity = opportunity.union(Opportunity.objects.filter(goals__icontains=search_term, state=state).order_by(
-            '-created_at').values())
+        opportunities = opportunities.union(
+            Opportunity.objects.filter(goals__icontains=search_term, state=state).order_by(
+                '-created_at').values())
+
+        for opportunity in opportunities:
+            opportunity["vio"] = Vio.objects.filter(user_id=opportunity["vio_id"]).values()[0]
 
         if num_of is None:
-            return opportunity
+            return opportunities
         else:
-            return opportunity[:num_of]
+            return opportunities[:num_of]
 
     @staticmethod
     def getOpportunityById(opportunity_id):
