@@ -10,6 +10,7 @@ from volunteer.models import Volunteer
 class TestReportModel(APITestCase):
     def setUp(self) -> None:
         self.main_report_data = {
+            "title": "Plant trees in colombo",
             "district": "Ampara",
             "severity": "5",
             "long": 6.490,

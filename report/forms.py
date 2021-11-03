@@ -4,6 +4,7 @@ from report.models import ReportPhoto
 
 
 class ReportForm(forms.Form):
+    title = forms.CharField(required=True, max_length=255)
     district = forms.CharField(required=True, max_length=50)
     severity = forms.IntegerField(required=True)
     recent = forms.CharField(required=True, max_length=750)

@@ -7,6 +7,7 @@ from volunteer.models import Volunteer
 
 
 class DeforestationReport(TrackingModel):
+    title = models.CharField(blank=False, max_length=255)
     long = models.DecimalField(blank=True, decimal_places=7, max_digits=10)
     lat = models.DecimalField(blank=True, decimal_places=7, max_digits=10)
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)

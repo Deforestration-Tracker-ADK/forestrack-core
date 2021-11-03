@@ -45,6 +45,7 @@ class RegisterReportAPIView(GenericAPIView):
             data["lat"] = district_location_Map[district][1]
 
         data["volunteer"] = Volunteer.objects.get(user_id=request.user.id)
+        data["title"] = request.data.get("title")
         data["severity"] = request.data.get("severity")
         data["district"] = request.data.get("district")
         data["recent"] = request.data.get("recent")
@@ -53,7 +54,6 @@ class RegisterReportAPIView(GenericAPIView):
         data["location"] = request.data.get("location")
         report = DeforestationReport.objects.create(**data)
 
-        print(images)
         if images:
             n = 0
             for image in images:

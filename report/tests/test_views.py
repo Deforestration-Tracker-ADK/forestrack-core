@@ -12,6 +12,7 @@ class ReportIntegrationTests(APITestCase):
     def setUp(self) -> None:
         self.rest_client = APIClient()
         self.main_report_data = {
+            "title": "Plant trees in colombo",
             "district": "Ampara",
             "severity": "5",
             "recent": "True",
