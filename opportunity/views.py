@@ -120,10 +120,14 @@ class SearchOpportunity(GenericAPIView):
     @staticmethod
     def get(request):
         search_term = request.query_params.get("search")
+        state = request.query_params.get("state")
         if search_term is None:
             response.Response("No Search term provided", status=status.HTTP_400_BAD_REQUEST)
 
-        return response.Response(OpportunityService.searchOpportunitiesByName(search_term), status=status.HTTP_200_OK)
+        if state is None or state not in OpportunityState:
+            state = OpportunityState.APPROVED
+        return response.Response(OpportunityService.searchOpportunitiesByName(search_term, state=state),
+                                 status=status.HTTP_200_OK)
 
 
 class GetOpportunityById(GenericAPIView):

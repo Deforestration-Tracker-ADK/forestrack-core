@@ -97,18 +97,22 @@ class OpportunityService:
             return vol_opp_list
 
     @staticmethod
-    def searchOpportunitiesByName(search_term, num_of=None):
+    def searchOpportunitiesByName(search_term, state=OpportunityState.APPROVED, num_of=None):
         if search_term is None:
             return None
 
-        opportunity = Opportunity.objects.filter(name__icontains=search_term).order_by('-created_at').values()
-        opportunity = opportunity.union(Opportunity.objects.filter(description__icontains=search_term).order_by(
-            '-created_at').values())
-        opportunity = opportunity.union(Opportunity.objects.filter(district__icontains=search_term).order_by(
-            '-created_at').values())
-        opportunity = opportunity.union(Opportunity.objects.filter(address__icontains=search_term).order_by(
-            '-created_at').values())
-        opportunity = opportunity.union(Opportunity.objects.filter(goals__icontains=search_term).order_by(
+        opportunity = Opportunity.objects.filter(name__icontains=search_term, state=state).order_by(
+            '-created_at').values()
+        opportunity = opportunity.union(
+            Opportunity.objects.filter(description__icontains=search_term, state=state).order_by(
+                '-created_at').values())
+        opportunity = opportunity.union(
+            Opportunity.objects.filter(district__icontains=search_term, state=state).order_by(
+                '-created_at').values())
+        opportunity = opportunity.union(
+            Opportunity.objects.filter(address__icontains=search_term, state=state).order_by(
+                '-created_at').values())
+        opportunity = opportunity.union(Opportunity.objects.filter(goals__icontains=search_term, state=state).order_by(
             '-created_at').values())
 
         if num_of is None:
