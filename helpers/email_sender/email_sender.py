@@ -1,24 +1,20 @@
 import os
 
+from django.core.mail import EmailMultiAlternatives
 from dotenv import load_dotenv
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 
 load_dotenv()
 
 
-def send_email(email, subject, html):
-    message = Mail(
-        from_email=os.environ.get('COMPANY_EMAIL'),
-        to_emails=email,
-        subject=subject,
-        html_content=html)
+def send_email(email, subject, text, html):
+    text_content = text
+    html_content = html
+    msg = EmailMultiAlternatives(subject, text_content, os.environ.get('COMPANY_EMAIL'), [email])
+    msg.attach_alternative(html_content, "text/html")
     try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        if not os.environ.get('TESTING', False):
-            response = sg.send(message)
-        # print(response.status_code)
-        # print(response.body)
-        # print(response.headers)
+        print(os.environ.get('COMPANY_EMAIL'))
+        print(email)
+        response = msg.send()
+        print(response)
     except Exception as e:
-        print(e.message)
+        print(e)
