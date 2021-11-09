@@ -55,9 +55,7 @@ evalscript_true_color = """
     }
 
     function evaluatePixel(sample) {
-        return [sample.B02,
-                sample.B03,
-                sample.B04];
+        [2.5 * sample.B04, 2.5 * sample.B03, 2.5 * sample.B02];
     }
 """
 

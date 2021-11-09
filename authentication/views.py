@@ -33,9 +33,9 @@ class ChangePasswordView(GenericAPIView):
                 user = User.objects.get(id=request.user.id)
                 user.set_password(serializer.validated_data["new_password"])
                 user.save()
-                return response.Response({"message": "successfully changed password"}, status=status.HTTP_200_OK)
+                return response.Response({"message": "Successfully changed password"}, status=status.HTTP_200_OK)
 
-            return response.Response({"message": "old password is wrong"}, status=status.HTTP_400_BAD_REQUEST)
+            return response.Response({"message": "Old password Entered is wrong"}, status=status.HTTP_400_BAD_REQUEST)
 
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
