@@ -7,6 +7,8 @@ from forest_stats.services import ForestStatsService
 class TestForestStatService(APITestCase):
     def setUp(self) -> None:
         self.service = ForestStatsService
+
+        # create data entry 1
         self.test_data0 = {
             "district": "Ampara",
             "water": 158,
@@ -21,6 +23,7 @@ class TestForestStatService(APITestCase):
 
         self.stat_data0 = ForestStats.objects.create(**self.test_data0)
 
+        # create data entry 2
         self.test_data1 = {
             "district": "Ampara",
             "water": 1.58,
@@ -36,6 +39,10 @@ class TestForestStatService(APITestCase):
         self.stat_data1 = ForestStats.objects.create(**self.test_data1)
 
     def test_get_stats_district(self):
+        """
+        Test getting statistics
+        :return:
+        """
         data = self.service.get_stats_district(self.test_data0["district"])
         self.assertEqual(data["district"], self.test_data0["district"])
         self.assertEqual(float(data["last_month"]["water"]), self.test_data1["water"])

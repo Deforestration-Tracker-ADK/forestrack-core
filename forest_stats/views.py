@@ -6,6 +6,9 @@ from forest_stats.services import ForestStatsService
 
 
 class GetAllForestStats(GenericAPIView):
+    """
+    Getting Statistics for a district
+    """
     permission_classes = []
     authentication_classes = []
 
@@ -18,6 +21,9 @@ class GetAllForestStats(GenericAPIView):
 
 
 class GetImagesForDistrict(GenericAPIView):
+    """
+    Getting satellite images for a district
+    """
     permission_classes = []
     authentication_classes = []
 

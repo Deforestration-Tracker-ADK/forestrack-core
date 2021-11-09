@@ -135,17 +135,28 @@ def remove_clds(image_stack):
 
 
 class ForestStatsService:
+    """
+    Forestrack statistics component
+    Service Class
+    """
+
     @staticmethod
     def get_images_district(district, no_of):
+        # get day range
         day_slots = get_date_slots()
+
+        # load Geojson of district and divide it to the bounding boxes
         input_file = f"{settings.BASE_DIR}/forest_stats/static/{district}.json"
         bbox_splitter = read_json_and_break_into_bbox(input_file)
 
+        # choose number of bounding boxes to load
         bbox_list = bbox_splitter.get_bbox_list()[:no_of]
         info_list = bbox_splitter.get_info_list()[:no_of]
 
+        # get least cloud image
         cld_less_images = get_satellite_images(bbox_list, info_list, day_slots)
 
+        # convert each image in list to a base64 encoded image
         images = []
         for i in range(no_of):
             img = np.uint8(np.clip(np.array(cld_less_images[i][0]) * 5 / 255, 0, 255))
@@ -163,10 +174,14 @@ class ForestStatsService:
         result_stats = {
             "district": district,
         }
+
+        # get the statistics of the last 2 months
         past_2_months_stat = ForestStats.objects.filter(district=district).order_by("-created_at").values()[:2]
         result_stats["last_month"] = past_2_months_stat[0]
         change_percentage = {}
         change = {}
+
+        # calculate change and change percentage
         for key in stats_title:
             change[key] = past_2_months_stat[0][key] - past_2_months_stat[1][key]
             if past_2_months_stat[1][key] == 0:

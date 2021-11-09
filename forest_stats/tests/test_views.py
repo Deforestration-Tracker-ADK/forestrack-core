@@ -4,8 +4,15 @@ from forest_stats.models import ForestStats
 
 
 class ForestStatsIntegrationTests(APITestCase):
+    """
+    Forestrack statistics component
+    Endpoint Testing
+    """
+
     def setUp(self) -> None:
         self.rest_client = APIClient()
+
+        # create data entry 1
         self.test_data0 = {
             "district": "Ampara",
             "water": 158,
@@ -20,6 +27,7 @@ class ForestStatsIntegrationTests(APITestCase):
 
         self.stat_data0 = ForestStats.objects.create(**self.test_data0)
 
+        # create data entry 2
         self.test_data1 = {
             "district": "Ampara",
             "water": 1.58,
@@ -35,6 +43,10 @@ class ForestStatsIntegrationTests(APITestCase):
         self.stat_data1 = ForestStats.objects.create(**self.test_data1)
 
     def test_stats_district(self):
+        """
+        Testing Getting statistics end point
+        :return:
+        """
         response = self.rest_client.get(f"/api/forest_stats/stats/{self.test_data0['district']}")
         self.assertEqual(response.status_code, 200)
         data = response.data

@@ -1,3 +1,4 @@
+# district list
 districts_list = [
     'Ampara',
     'Anuradhapura',
@@ -26,6 +27,7 @@ districts_list = [
     'Vavunia',
 ]
 
+# district map to lat and long
 district_location_Map = {
     'Ampara': [7.121484, 81.737674],
     'Anuradhapura': [8.321418, 80.394877],
