@@ -146,7 +146,7 @@ class ForestStatsService:
 
         images = []
         for i in range(no_of):
-            img = np.uint8(np.clip(np.array(cld_less_images[i][0]) * 5 / 255, 0, 255))
+            img = np.uint8(np.clip(np.array(cld_less_images[i][0]) * 1 / 255, 0, 255))
             img = Image.fromarray(img)
             enhancer = ImageEnhance.Brightness(img)
             img = enhancer.enhance(2)
