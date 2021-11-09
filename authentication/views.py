@@ -1,10 +1,10 @@
 from django.contrib.auth import authenticate
-from rest_framework import response, status
+from rest_framework import response, status, permissions
 from rest_framework.generics import GenericAPIView
 
 from authentication.enums import UserState
-from authentication.models import UserType
-from authentication.serializers import LoginSerializer
+from authentication.models import UserType, User
+from authentication.serializers import LoginSerializer, ChangePasswordSerializer
 from authentication.services import AuthService
 from vio.models import Vio
 from volunteer.models import Volunteer
@@ -19,6 +19,25 @@ def get_profile_details(user):
 
     if user.user_type == UserType.VIO:
         return Vio.objects.get(user=user)
+
+
+class ChangePasswordView(GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            check = request.user.check_password(serializer.validated_data["old_password"])
+            if check:
+                user = User.objects.get(id=request.user.id)
+                user.set_password(serializer.validated_data["new_password"])
+                user.save()
+                return response.Response({"message": "successfully changed password"}, status=status.HTTP_200_OK)
+
+            return response.Response({"message": "old password is wrong"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginAPIView(GenericAPIView):

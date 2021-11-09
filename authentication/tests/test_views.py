@@ -9,11 +9,16 @@ from volunteer.models import Volunteer
 
 
 class AuthIntegrationTests(APITestCase):
+    """
+    Authentication Endpoint Testing
+    """
+
     def setUp(self) -> None:
         self.rest_client = APIClient()
         self.main_volunteer_user = User.objects.create_user('devin.18@cse.mrt.ac.lk', UserType.VOLUNTEER, 'password',
                                                             gen_email_token())
 
+        # volunteer Data
         self.main_volunteer_data = {
             "first_name": "Devin",
             "last_name": "De Silva",
@@ -33,6 +38,7 @@ class AuthIntegrationTests(APITestCase):
 
         }
 
+        # create volunteer
         user_details = {
             **self.main_volunteer_data["user"],
             "user_type": UserType.VOLUNTEER,
@@ -42,6 +48,7 @@ class AuthIntegrationTests(APITestCase):
         volunteer_details = {**self.main_volunteer_data, "user": self.vol_user}
         self.volunteer = Volunteer.objects.create(**volunteer_details)
 
+        # vio data
         self.main_vio_data = {
             "name": "Ocean warriors",
             "description": "Ocean willl look amazing in the future and we will be apart of it",
@@ -57,6 +64,7 @@ class AuthIntegrationTests(APITestCase):
 
         }
 
+        # create vio
         user_details = {
             **self.main_vio_data["user"],
             "user_type": UserType.VIO,
@@ -67,6 +75,10 @@ class AuthIntegrationTests(APITestCase):
         self.vio = Vio.objects.create(**vio_details)
 
     def test_login_user_must_verify_email(self):
+        """
+        User must Verify email before signing in
+        :return:
+        """
         data = {
             "email": 'devin.18@cse.mrt.ac.lk',
             "password": "password"
@@ -77,16 +89,28 @@ class AuthIntegrationTests(APITestCase):
         self.assertEqual(response.data, {'message': 'User must verify email'})
 
     def test_verify_email(self):
+        """
+        Email Verification
+        :return:
+        """
         response = self.rest_client.post(f"/api/auth/email_verify/{self.main_volunteer_user.email_token}")
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.data)
 
     def test_verify_email_invalid_token(self):
+        """
+        Email Verification token invalid
+        :return:
+        """
         response = self.rest_client.post(f"/api/auth/email_verify/{gen_email_token()}")
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data, {"message": "Invalid email token"})
 
     def test_login(self):
+        """
+        Login user
+        :return:
+        """
         data = {
             "email": 'devin.18@cse.mrt.ac.lk',
             "password": "password"
@@ -98,6 +122,10 @@ class AuthIntegrationTests(APITestCase):
         self.assertEqual(response.data["user_type"], self.main_volunteer_user.user_type)
 
     def test_login_invalid_credentials(self):
+        """
+        Login with invalid credentials
+        :return:
+        """
         data = {
             "email": 'devin.18@cse.mrt.ac.lk',
             "password": "not_password"

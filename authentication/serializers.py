@@ -14,6 +14,11 @@ frontend_host = os.environ.get('FRONTEND_HOST') if not os.environ.get(
     'FRONTEND_HOST') is None else "http://localhost:3000"
 
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(max_length=255, min_length=6, write_only=True)
+    new_password = serializers.CharField(max_length=255, min_length=6, write_only=True)
+
+
 def email_choose(user_type, data):
     if user_type == UserType.VOLUNTEER:
         volunteer_email_verify(data['email'], data)

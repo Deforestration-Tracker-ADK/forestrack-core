@@ -7,7 +7,15 @@ from helpers.token_generators import gen_email_token
 
 
 class TestAuthenticationService(APITestCase):
+    """
+    Testing Service Class
+    """
+
     def test_verify_email(self):
+        """
+        Testing email verification service
+        :return: None
+        """
         user = User.objects.create_user('devin.18@cse.mrt.ac.lk', UserType.VOLUNTEER, 'password', gen_email_token())
         self.assertTrue(AuthService.verify_email(user.email_token))
         self.assertFalse(AuthService.verify_email(user.email_token))

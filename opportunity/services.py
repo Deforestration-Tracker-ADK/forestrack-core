@@ -1,3 +1,4 @@
+from authentication.enums import VolunteerVioState
 from authentication.models import User
 from opportunity.enums import OpportunityState, VolunteerOpportunityState
 from opportunity.models import Opportunity, VolunteerOpportunity
@@ -114,6 +115,44 @@ class OpportunityService:
                 '-created_at').values())
         opportunities = opportunities.union(
             Opportunity.objects.filter(goals__icontains=search_term, state=state).order_by(
+                '-created_at').values())
+
+        vio_s = Vio.objects.filter(name__icontains=search_term, state=VolunteerVioState.APPROVED).order_by(
+            '-created_at').values()
+
+        for each in vio_s:
+            opportunities = opportunities.union(Opportunity.objects.filter(vio_id=each.user_id, state=state).order_by(
+                '-created_at').values())
+
+        for opportunity in opportunities:
+            opportunity["vio"] = Vio.objects.filter(user_id=opportunity["vio_id"]).values()[0]
+
+        if num_of is None:
+            return opportunities
+        else:
+            return opportunities[:num_of]
+
+    @staticmethod
+    def searchOpportunityForVio(search_term, vio_id, state=OpportunityState.APPROVED, num_of=None):
+        if search_term is None:
+            return None
+
+        if not Vio.objects.filter(user_id=vio_id).exists():
+            return None
+
+        opportunities = Opportunity.objects.filter(name__icontains=search_term, state=state, vio_id=vio_id).order_by(
+            '-created_at').values()
+        opportunities = opportunities.union(
+            Opportunity.objects.filter(description__icontains=search_term, state=state, vio_id=vio_id).order_by(
+                '-created_at').values())
+        opportunities = opportunities.union(
+            Opportunity.objects.filter(district__icontains=search_term, state=state, vio_id=vio_id).order_by(
+                '-created_at').values())
+        opportunities = opportunities.union(
+            Opportunity.objects.filter(address__icontains=search_term, state=state, vio_id=vio_id).order_by(
+                '-created_at').values())
+        opportunities = opportunities.union(
+            Opportunity.objects.filter(goals__icontains=search_term, state=state, vio_id=vio_id).order_by(
                 '-created_at').values())
 
         for opportunity in opportunities:
