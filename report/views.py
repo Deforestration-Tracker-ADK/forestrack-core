@@ -23,6 +23,9 @@ cloudinary.config(
 
 
 class RegisterReportAPIView(GenericAPIView):
+    """
+    Create a Report.
+    """
     permission_classes = (permissions.IsAuthenticated, IsVolunteer)
 
     @staticmethod
@@ -40,6 +43,7 @@ class RegisterReportAPIView(GenericAPIView):
         if district is None:
             return response.Response({"district": "Please select a district"}, status=status.HTTP_400_BAD_REQUEST)
 
+        # if the long and lat is not available in data map long lat from defined enum in enum.py file
         if long is None:
             data["long"] = district_location_Map[district][0]
             data["lat"] = district_location_Map[district][1]
@@ -54,19 +58,21 @@ class RegisterReportAPIView(GenericAPIView):
         data["location"] = request.data.get("location")
         report = DeforestationReport.objects.create(**data)
 
+        # store each image in the Cloudinary API
         if images:
-            n = 0
             for image in images:
                 ReportPhoto.objects.create(
                     report=report,
                     image=image,
                 )
-                n += 1
 
         return response.Response({"message": "report successfully created"}, status=status.HTTP_201_CREATED)
 
 
 class GetReportByDistrict(GenericAPIView):
+    """
+    Get the reports of a specific district.
+    """
     permission_classes = []
     authentication_classes = []
 
@@ -81,6 +87,9 @@ class GetReportByDistrict(GenericAPIView):
 
 
 class GetReportWithImagesById(GenericAPIView):
+    """
+    Get Report with images of a particular report.
+    """
     permission_classes = []
     authentication_classes = []
 

@@ -11,6 +11,9 @@ from vio.services import VioService
 
 
 class RegisterAPIView(GenericAPIView):
+    """
+    Register a vio in system.
+    """
     authentication_classes = []
     serializer_class = VioRegisterSerializer
 
@@ -25,6 +28,9 @@ class RegisterAPIView(GenericAPIView):
 
 
 class AuthVioAPIView(GenericAPIView):
+    """
+    Load details of logged in vio
+    """
     permission_classes = (permissions.IsAuthenticated, IsVio)
 
     @staticmethod
@@ -36,6 +42,9 @@ class AuthVioAPIView(GenericAPIView):
 
 
 class AcceptVolunteerForOpportunity(GenericAPIView):
+    """
+    Accept a volunteer for a vio's opportunity
+    """
     permission_classes = (permissions.IsAuthenticated, IsVio)
 
     @staticmethod
@@ -56,6 +65,9 @@ class AcceptVolunteerForOpportunity(GenericAPIView):
 
 
 class GetAllApprovedVio(GenericAPIView):
+    """
+    Get list of approved VIOs
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     @staticmethod
@@ -65,6 +77,9 @@ class GetAllApprovedVio(GenericAPIView):
 
 
 class GetAllUnapprovedVio(GenericAPIView):
+    """
+    Get list of unapproved VIOs
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     @staticmethod
@@ -74,6 +89,9 @@ class GetAllUnapprovedVio(GenericAPIView):
 
 
 class GetVioByID(GenericAPIView):
+    """
+    Get VIO details by Id
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     @staticmethod

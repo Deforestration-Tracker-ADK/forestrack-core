@@ -11,6 +11,9 @@ from volunteer.services import VolunteerService
 
 
 class RegisterAPIView(GenericAPIView):
+    """
+    Register Volunteer In the system
+    """
     authentication_classes = []
     serializer_class = VolunteerRegisterSerializer
 
@@ -25,6 +28,9 @@ class RegisterAPIView(GenericAPIView):
 
 
 class AuthVolunteerAPIView(GenericAPIView):
+    """
+    Load details of logged in volunteer
+    """
     permission_classes = (permissions.IsAuthenticated, IsVolunteer)
 
     @staticmethod
@@ -37,6 +43,9 @@ class AuthVolunteerAPIView(GenericAPIView):
 
 
 class ApplyForOpportunityAPIView(GenericAPIView):
+    """
+    Apply for a volunteering project by a volunteer
+    """
     permission_classes = [permissions.IsAuthenticated, IsVolunteer]
     serializer_class = ApplyForOpportunitySerializer
 
@@ -52,6 +61,9 @@ class ApplyForOpportunityAPIView(GenericAPIView):
 
 
 class GetAllApprovedVolunteer(GenericAPIView):
+    """
+    Get all the approved volunteer
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     @staticmethod
@@ -61,6 +73,9 @@ class GetAllApprovedVolunteer(GenericAPIView):
 
 
 class GetAllUnapprovedVolunteer(GenericAPIView):
+    """
+    Get all the unapproved volunteer
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     @staticmethod
@@ -70,6 +85,9 @@ class GetAllUnapprovedVolunteer(GenericAPIView):
 
 
 class GetVolunteerByID(GenericAPIView):
+    """
+    Get volunteer details by Id
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     @staticmethod
