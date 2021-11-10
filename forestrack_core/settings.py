@@ -35,7 +35,8 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['forestrack-core.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['forestrack-core.herokuapp.com', '127.0.0.1', 'localhost', "https://forestrack-react.herokuapp.com",
+                 env('FRONTEND_URL')]
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -104,7 +105,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'forestrack_core.urls'
 
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://localhost:3009', 'http://localhost:3006', env('FRONTEND_URL'))
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000', 'http://localhost:3009', 'http://localhost:3006', "https://forestrack-react.herokuapp.com",
+    env('FRONTEND_URL'))
 
 TEMPLATES = [
     {
