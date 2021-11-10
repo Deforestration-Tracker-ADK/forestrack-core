@@ -7,6 +7,7 @@ from opportunity.enums import OpportunityState, VolunteerOpportunityState
 from opportunity.serializers import OpportunitySerializer
 from opportunity.services import OpportunityService
 from vio.permissions import IsVio
+from volunteer.models import Volunteer
 
 
 class RegisterAPIView(GenericAPIView):
@@ -112,6 +113,27 @@ class GetCompletedVolunteersForOpportunity(GenericAPIView):
             OpportunityService.getVolunteerOpportunitiesForOpportunity(opportunity_id,
                                                                        state=VolunteerOpportunityState.COMPLETED),
             status=status.HTTP_200_OK)
+
+
+class SearchOpportunityVolunteer(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def get(request):
+        search_term = request.query_params.get("search")
+        vol_id = request.query_params.get("volunteer")
+        state = request.query_params.get("state")
+        if search_term is None:
+            response.Response("No Search term provided", status=status.HTTP_400_BAD_REQUEST)
+
+        if vol_id is None or not Volunteer.objects.filter(user_id=vol_id).exists():
+            response.Response("No Such Volunteer", status=status.HTTP_400_BAD_REQUEST)
+
+        if state is None or state not in VolunteerOpportunityState:
+            state = VolunteerOpportunityState.ACCEPTED
+
+        return response.Response(OpportunityService.searchOpportunitiesWithVolunteer(vol_id, search_term, state=state),
+                                 status=status.HTTP_200_OK)
 
 
 class SearchOpportunity(GenericAPIView):

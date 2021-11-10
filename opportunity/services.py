@@ -164,6 +164,22 @@ class OpportunityService:
             return opportunities[:num_of]
 
     @staticmethod
+    def searchOpportunitiesWithVolunteer(volunteer_id, search_term, state=VolunteerOpportunityState.ACCEPTED,
+                                         num_of=None):
+        opportunities = OpportunityService.searchOpportunitiesByName(search_term, state=OpportunityState.APPROVED)
+        vol_opp_id = VolunteerOpportunity.objects.filter(volunteer_id=volunteer_id,
+                                                         state=state).values_list('opportunity_id',
+                                                                                  flat=True)
+
+        selected_opportunities = Opportunity.objects.filter(id__in=list(vol_opp_id)).values()
+        selected_opportunities = selected_opportunities.intersection(opportunities)
+
+        if num_of is None:
+            return selected_opportunities
+        else:
+            return selected_opportunities[:num_of]
+
+    @staticmethod
     def getOpportunityById(opportunity_id):
         if Opportunity.objects.filter(id=opportunity_id).exists():
             opportunity = Opportunity.objects.filter(id=opportunity_id).values()[0]

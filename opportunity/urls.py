@@ -29,4 +29,5 @@ urlpatterns = [
     path("completed/volunteers/<opportunity_id>", views.GetCompletedVolunteersForOpportunity.as_view(),
          name="get_volunteers_completed_for_projects"),
     path("search", views.SearchOpportunity.as_view(), name="Search title"),
+    path("search/volunteer", views.SearchOpportunityVolunteer.as_view(), name="Search Opportunities for a Volunteer")
 ]
